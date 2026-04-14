@@ -15,90 +15,80 @@ def start_text() -> str:
         "Теперь твоя очередь. 🚀\n\n"
         "Я проведу тебя по каждому шагу —\n"
         "от идеи персонажа до первых денег.\n\n"
-        "Готов начать? 👇"
+        "Готов начать? Нажми кнопку ниже 👇"
     )
 
 
 def help_text() -> str:
     return (
         "❓ Помощь\n\n"
-        "Я помогаю тебе шаг за шагом собрать проект AI модели.\n\n"
-        "Что можно делать прямо сейчас:\n"
-        "• нажать «🚀 Мой шаг сегодня» — получить фокус дня\n"
-        "• нажать «✅ Выполнено» — отметить шаг выполненным\n"
-        "• отправить обычный текст — и я оценю ответ\n"
-        "• открыть «⚙️ Настройки» — изменить режим и время\n\n"
-        "Основные команды:\n"
-        "/start — открыть бота и главное меню\n"
-        "/today — показать план и текущий шаг\n"
-        "/done — отметить текущий шаг выполненным\n"
-        "/status — показать прогресс\n"
-        "/pause — поставить работу на паузу\n"
+        "Я помогаю тебе шаг за шагом создать AI-модель.\n\n"
+        "Что делать:\n"
+        "• «🚀 Мой шаг сегодня» — получить задачу дня\n"
+        "• «✅ Выполнено» — отметить шаг готовым\n"
+        "• Напиши «Готово» — тоже отметит шаг\n"
+        "• «⚙️ Настройки» — изменить режим и время\n\n"
+        "Команды:\n"
+        "/start — главное меню\n"
+        "/today — текущий шаг\n"
+        "/done — отметить шаг выполненным\n"
+        "/status — прогресс\n"
+        "/pause — пауза\n"
         "/resume — продолжить\n"
-        "/reset — начать шаги заново\n\n"
-        "Если не хочется писать команды вручную — пользуйся кнопками внизу 👇"
+        "/reset — начать заново\n\n"
+        "Пользуйся кнопками — так проще 👇"
     )
 
 
 def step_text(step: Step) -> str:
-    stage = stage_label(str(step.stage))
-
     return (
-        "🧩 Текущий шаг\n\n"
-        f"📍 Этап:\n{stage}\n\n"
-        f"🎯 Задача:\n{step.title}\n\n"
-        f"📝 Что сделать:\n{step.expected_user_action}\n\n"
-        f"⏱ Время:\n~{step.estimated_minutes} мин.\n\n"
-        f"📖 Контекст:\n{step.description}"
+        f"🎯 {step.title}\n\n"
+        f"{step.expected_user_action}\n\n"
+        f"⏱ ~{step.estimated_minutes} мин."
     )
 
 
 def today_card_text(step: Step, plan_summary: str | None = None) -> str:
-    header = "📅 План на сегодня\n\n"
-    focus = f"🎯 Главный фокус:\n{step.title}\n\n"
-    action = f"📝 Что сделать первым:\n{step.expected_user_action}\n\n"
-    timing = f"⏱ Время:\n~{step.estimated_minutes} мин.\n\n"
-
+    text = (
+        "📅 Твой шаг на сегодня:\n\n"
+        f"🎯 {step.title}\n"
+        f"⏱ ~{step.estimated_minutes} мин.\n\n"
+        f"📖 {step.description}"
+    )
     if plan_summary:
-        summary = f"💡 План дня:\n{plan_summary}\n\n"
-    else:
-        summary = ""
-
-    return header + focus + action + timing + summary
+        text += f"\n\n💡 {plan_summary}"
+    return text
 
 
 def status_text(user: User, done: int, total: int) -> str:
     current_stage = stage_label(str(user.current_stage)) if user.current_stage else "не выбран"
-    current_step = str(user.current_step_id) if user.current_step_id else "нет"
-    paused = "⏸️ Да" if user.is_paused else "▶️ Нет"
+    paused = "⏸️ На паузе" if user.is_paused else "▶️ Активен"
     mode = mode_label(str(user.mode))
     timezone = timezone_label(str(user.timezone))
-
     progress_line = f"{done}/{total}" if total > 0 else f"{done}"
 
     return (
-        "📊 Статус проекта\n\n"
-        f"📍 Текущий этап:\n{current_stage}\n\n"
-        f"🧩 Текущий шаг ID:\n{current_step}\n\n"
-        f"✅ Выполнено шагов:\n{progress_line}\n\n"
-        f"🌍 Часовой пояс:\n{timezone}\n\n"
-        f"🕒 Время ежедневного плана:\n{user.daily_time}\n\n"
-        f"⚙️ Режим:\n{mode}\n\n"
-        f"⏯ Пауза:\n{paused}"
+        "📊 Твой прогресс\n\n"
+        f"📍 Этап: {current_stage}\n"
+        f"✅ Выполнено: {progress_line} шагов\n"
+        f"🌍 Часовой пояс: {timezone}\n"
+        f"🕒 Время плана: {user.daily_time}\n"
+        f"⚙️ Режим: {mode}\n"
+        f"⏯ Статус: {paused}"
     )
 
 
 def weak_input_text() -> str:
     return (
-        "Мне нужен чуть более содержательный ответ 👌\n\n"
-        "Напиши 1–3 короткие, но конкретные мысли по текущему шагу.\n"
-        "Например: варианты имени, описание стиля, список идей, 3 локации и т.д."
+        "Напиши чуть подробнее 👌\n\n"
+        "Например: имя модели, стиль, идея — "
+        "любые 1–3 конкретные детали по текущему шагу."
     )
 
 
 def step_done_text() -> str:
-    return "✅ Отлично, шаг отмечен как выполненный."
+    return "✅ Шаг выполнен! Отличная работа 💪"
 
 
 def next_step_intro_text() -> str:
-    return "➡️ Переходим к следующему шагу:"
+    return "➡️ Следующий шаг:"
