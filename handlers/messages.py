@@ -9,11 +9,11 @@ from utils.keyboards import (
     step_actions_keyboard,
 )
 from utils.labels import mode_label, timezone_label
+from utils.motivations import get_praise_phrase
 from utils.text import (
     help_text,
     next_step_intro_text,
     status_text,
-    step_done_text,
     step_text,
     today_card_text,
     weak_input_text,
@@ -80,7 +80,7 @@ async def menu_done(message: Message, session: AsyncSession) -> None:
 
     next_step = await step_service.mark_step_done(user, step)
 
-    await message.answer(step_done_text(), reply_markup=main_menu_keyboard())
+    await message.answer(get_praise_phrase(), reply_markup=main_menu_keyboard())
 
     if next_step:
         await message.answer(next_step_intro_text(), reply_markup=main_menu_keyboard())
@@ -125,7 +125,7 @@ async def menu_pause(message: Message, session: AsyncSession) -> None:
         return
 
     await settings_service.pause(user)
-    await message.answer("⏸️ Пауза включена. Я временно не буду тебя подгонять.", reply_markup=main_menu_keyboard())
+    await message.answer("⏸️ Пауза включена.", reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "▶️ Продолжить")
@@ -140,7 +140,7 @@ async def menu_resume(message: Message, session: AsyncSession) -> None:
         return
 
     await settings_service.resume(user)
-    await message.answer("▶️ Супер, продолжаем работу.", reply_markup=main_menu_keyboard())
+    await message.answer("▶️ Продолжаем!", reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "⚙️ Настройки")
@@ -188,18 +188,18 @@ async def handle_text_message(message: Message, session: AsyncSession) -> None:
         parts = new_time.split(":")
 
         if len(parts) != 2 or not parts[0].isdigit() or not parts[1].isdigit():
-            await message.answer("Неверный формат времени. Используй так: время 09:30", reply_markup=main_menu_keyboard())
+            await message.answer("Неверный формат. Используй: время 09:30", reply_markup=main_menu_keyboard())
             return
 
         hours, minutes = int(parts[0]), int(parts[1])
 
         if not (0 <= hours <= 23 and 0 <= minutes <= 59):
-            await message.answer("Время вне диапазона. Используй формат от 00:00 до 23:59.", reply_markup=main_menu_keyboard())
+            await message.answer("Время вне диапазона. От 00:00 до 23:59.", reply_markup=main_menu_keyboard())
             return
 
         normalized = f"{hours:02d}:{minutes:02d}"
         await settings_service.update_daily_time(user, normalized)
-        await message.answer(f"🕒 Готово. Новое время ежедневного плана: {normalized}", reply_markup=main_menu_keyboard())
+        await message.answer(f"🕒 Готово. Новое время: {normalized}", reply_markup=main_menu_keyboard())
         return
 
     # ── Обработка «Готово» и похожих фраз ────────────────
@@ -219,7 +219,7 @@ async def handle_text_message(message: Message, session: AsyncSession) -> None:
             return
 
         next_step = await step_service.mark_step_done(user, step)
-        await message.answer(step_done_text(), reply_markup=main_menu_keyboard())
+        await message.answer(get_praise_phrase(), reply_markup=main_menu_keyboard())
 
         if next_step:
             await message.answer(next_step_intro_text(), reply_markup=main_menu_keyboard())
