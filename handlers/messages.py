@@ -233,4 +233,4 @@ async def menu_resume(message: Message, session: AsyncSession) -> None:
         await message.answer(start_text(), reply_markup=main_menu_keyboard())
         return
 
-    await settings_service.resume(user<span class="cursor">█</span>
+    await settings_service.resume(user)
