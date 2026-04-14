@@ -19,24 +19,23 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.SOCIAL_SETUP,
         order_index=1,
-        title="📱 Шаг 1 — Настройка телефона",
-        description="Настраиваем телефон — займёт 5 минут. Это нужно чтобы Instagram и TikTok давали международные охваты 🌍",
+        title="📱 Уровень 1 — Настройка телефона",
+        description="5 минут ⚡ Один раз — работает навсегда",
         expected_user_action=(
-            "Делай по шагам:\n\n"
-            "1️⃣ Настройки → Основные → Язык\n"
-            "→ Поставь: English (US)\n\n"
-            "2️⃣ Настройки → Основные → Регион\n"
-            "→ Поставь: United States\n\n"
-            "3️⃣ Скачай VPN (бесплатно):\n"
+            "3 действия:\n\n"
+            "1️⃣ Язык → English (US)\n"
+            "2️⃣ Регион → United States\n"
+            "3️⃣ VPN → сервер USA → включи\n\n"
+            "Скачай VPN бесплатно:\n"
             "→ <a href=\"https://lunox.run/?ref=5455901100\">LUNOX</a>\n"
-            "→ <a href=\"https://t.me/VPNo4ka_Robot?start=slovo95\">VPNo4ka</a>\n"
-            "→ Выбери сервер USA → Включи\n\n"
-            "Всё! Телефон готов 🎉\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "→ <a href=\"https://t.me/VPNo4ka_Robot?start=slovo95\">VPNo4ka</a>\n\n"
+            "Готово? Пиши 👇"
         ),
         estimated_minutes=5,
         payload_json=json.dumps({
-            "checklist": ["Язык = English (US)", "Регион = United States", "VPN включён (USA)"]
+            "achievement": "🔥 ПЕРВЫЙ ШАГ — большинство даже не дошли сюда",
+            "secret": "80% AI-моделей с 100к+ зарегистрированы как USA-аккаунты. Алгоритм буквально платит за это охватами.",
+            "checklist": ["Язык English (US)", "Регион United States", "VPN включён"]
         }, ensure_ascii=False),
     ),
 
@@ -45,31 +44,27 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.SOCIAL_SETUP,
         order_index=2,
-        title="📲 Шаг 2 — Создаём аккаунты",
-        description="Создаём Instagram и TikTok. VPN должен быть включён — это важно! ⚡",
+        title="📲 Уровень 2 — Создаём аккаунты",
+        description="10 минут 🌍 VPN включён — создаём два аккаунта",
         expected_user_action=(
-            "VPN включён? Поехали!\n\n"
+            "VPN ON ✅\n\n"
             "📸 Instagram:\n"
-            "▶️ Скачай Instagram\n"
-            "▶️ Нажми «Создать аккаунт»\n"
-            "▶️ Регистрируйся через Email\n"
-            "▶️ Username — любой временный\n"
-            "▶️ Фото пока не загружай\n\n"
+            "Создать аккаунт → Email → любой username\n\n"
             "🎵 TikTok:\n"
-            "▶️ Скачай TikTok\n"
-            "▶️ Нажми «Регистрация» → Email\n"
-            "▶️ Username — любой временный\n\n"
-            "⚠️ Оба аккаунта — только с включённым VPN!\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "Регистрация → Email → любой username\n\n"
+            "⚠️ Оба — только с включённым VPN!\n\n"
+            "Готово? Пиши 👇"
         ),
         estimated_minutes=10,
         payload_json=json.dumps({
-            "checklist": ["Instagram создан через Email", "TikTok создан через Email", "VPN был включён"]
+            "achievement": "🌍 В СИСТЕМЕ — аккаунты живут, алгоритм запущен",
+            "secret": "Аккаунты созданные с USA IP получают в среднем в 3 раза больше показов в первые 30 дней.",
+            "checklist": ["Instagram создан", "TikTok создан", "VPN был включён"]
         }, ensure_ascii=False),
     ),
 
     # ══════════════════════════════════════════════════════════
-    # БЛОК 2 — СОЗДАНИЕ ПЕРСОНАЖА
+    # БЛОК 2 — ПЕРСОНАЖ
     # ══════════════════════════════════════════════════════════
 
     StepSeed(
@@ -77,30 +72,28 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.CHARACTER_LORE,
         order_index=3,
-        title="🧠 Шаг 3 — Кто твоя AI-модель?",
-        description="Выбираем образ. Это как создать персонажа в игре — быстро и весело 🎮",
+        title="🧠 Уровень 3 — Создаём персонажа",
+        description="5 минут 🎮 Три выбора — и персонаж готов. Как в RPG.",
         expected_user_action=(
-            "Выбери один вариант в каждой строке 👇\n\n"
+            "Выбери по одному в каждой строке:\n\n"
             "🌍 Откуда она?\n"
-            "А) Азия 🌸\n"
-            "Б) Латинская Америка 🔥\n"
-            "В) Европа 🌿\n"
-            "Г) США 🗽\n"
-            "Д) Своя идея\n\n"
-            "✨ Какой вайб?\n"
-            "А) Нежная и загадочная\n"
-            "Б) Дерзкая и уверенная\n"
-            "В) Спортивная и энергичная\n"
-            "Г) Тёмная и мистическая\n"
-            "Д) Своя идея\n\n"
-            "👥 Для кого контент?\n"
-            "А) Мужчины 18–35\n"
-            "Б) Женщины 18–28\n"
-            "В) Все подряд\n\n"
-            "Просто напиши три буквы.\n"
-            "Например: Б, А, В 👇"
+            "А — Азия 🌸  Б — Латинка 🔥\n"
+            "В — Европа 🌿  Г — США 🗽\n\n"
+            "✨ Вайб?\n"
+            "А — Загадочная  Б — Дерзкая\n"
+            "В — Спортивная  Г — Мистическая\n\n"
+            "👥 Для кого?\n"
+            "А — Мужчины 18–35 💰\n"
+            "Б — Женщины 18–28\n"
+            "В — Все\n\n"
+            "Пример: А, Б, А\n\n"
+            "Пиши 👇"
         ),
         estimated_minutes=5,
+        payload_json=json.dumps({
+            "achievement": "🎮 ПЕРСОНАЖ СОЗДАН — она существует в твоей голове",
+            "secret": "Азия + загадочность = самая высокооплачиваемая ниша в AI-моделинге прямо сейчас. Не случайно.",
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -108,30 +101,26 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.CHARACTER_LORE,
         order_index=4,
-        title="📖 Шаг 4 — Биография за 1 клик",
-        description="Один промпт в ChatGPT — и готова полная биография твоей AI-модели 🤖",
+        title="📖 Уровень 4 — Биография за 1 промпт",
+        description="10 минут ✍️ Один промпт — и персонаж оживает",
         expected_user_action=(
-            "1️⃣ Открой ChatGPT\n\n"
-            "2️⃣ Скопируй и вставь промпт.\n"
-            "Замени только [СКОБКИ]:\n\n"
-            "┌─────────────────────────────┐\n"
-            "Создай биографию виртуальной AI-девушки.\n\n"
-            "Имя: [придумай красивое имя]\n"
-            "Возраст: [20–23 года]\n"
-            "Национальность: [из шага 3]\n"
-            "Город: [подходящий город]\n"
-            "Вайб: [из шага 3]\n\n"
-            "Напиши биографию 2000+ слов на русском.\n"
-            "Включи: характер, привычки, распорядок дня,\n"
-            "страхи, мечты, секреты, любимые места,\n"
-            "отношения, детские воспоминания.\n\n"
-            "Добавь одну НЕОБЫЧНУЮ деталь —\n"
-            "что-то что невозможно забыть.\n"
-            "└─────────────────────────────┘\n\n"
-            "3️⃣ Получил биографию?\n"
-            "Скопируй сюда ИМЯ и одно предложение про неё 👇"
+            "Открой ChatGPT → вставь:\n\n"
+            "┌──────────────────────────┐\n"
+            "Создай биографию AI-девушки.\n"
+            "Имя: [придумай]\n"
+            "Возраст: [20–23]\n"
+            "Нац: [из шага 3]\n"
+            "Вайб: [из шага 3]\n"
+            "2000 слов. Характер, мечты,\n"
+            "секреты, необычная деталь.\n"
+            "└──────────────────────────┘\n\n"
+            "Получил? Напиши имя модели 👇"
         ),
         estimated_minutes=10,
+        payload_json=json.dumps({
+            "achievement": "✍️ ИСТОРИЯ НАПИСАНА — у неё теперь есть прошлое",
+            "secret": "Модели с проработанной историей удерживают аудиторию в 4 раза дольше чем просто красивые фото.",
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -139,32 +128,28 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.CHARACTER_LORE,
         order_index=5,
-        title="🐘 Шаг 5 — Фишка модели",
-        description="Придумываем одну деталь из-за которой твою модель запомнят навсегда 💡",
+        title="🐘 Уровень 5 — Фишка которую не забудут",
+        description="10 минут 🐘 Одна деталь = тысячи запомнивших",
         expected_user_action=(
-            "Это называется «розовый слон» —\n"
-            "деталь которую невозможно забыть.\n\n"
-            "1️⃣ Открой ChatGPT\n\n"
-            "2️⃣ Вставь промпт:\n\n"
-            "┌─────────────────────────────┐\n"
-            "Вот биография AI-модели:\n"
-            "[вставь биографию из шага 4]\n\n"
-            "Придумай 5 уникальных фишек для неё.\n"
-            "Каждая фишка должна:\n"
-            "— быть видна на фото и видео\n"
-            "— повторяться в каждом посте\n"
-            "— быть необычной и запоминающейся\n\n"
-            "Формат: фишка + как показывать в контенте.\n"
-            "└─────────────────────────────┘\n\n"
-            "3️⃣ Получил варианты?\n"
-            "Напиши какая фишка больше нравится 👇\n\n"
+            "ChatGPT → промпт:\n\n"
+            "┌──────────────────────────┐\n"
+            "Биография: [вставь]\n\n"
+            "Придумай 5 фишек.\n"
+            "Каждая — видна на фото,\n"
+            "повторяется везде,\n"
+            "вызывает вопросы.\n"
+            "└──────────────────────────┘\n\n"
             "Примеры:\n"
-            "• Красная нить на запястье 🔴\n"
-            "• Янтарные глаза 🟡\n"
-            "• Всегда с маленьким плюшевым мишкой\n"
-            "• Одно и то же кольцо в каждом фото"
+            "🔴 Красная нить на запястье\n"
+            "💍 Одно кольцо всегда\n"
+            "🧸 Мишка в каждом кадре\n\n"
+            "Напиши фишку своей модели 👇"
         ),
         estimated_minutes=10,
+        payload_json=json.dumps({
+            "achievement": "🐘 НЕЗАБЫВАЕМАЯ — одна деталь которую не сотрут",
+            "secret": "Одна визуальная деталь повторяющаяся в каждом посте увеличивает узнаваемость на 60%.",
+        }, ensure_ascii=False),
     ),
 
     # ══════════════════════════════════════════════════════════
@@ -176,29 +161,28 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.APPEARANCE,
         order_index=6,
-        title="🖼 Шаг 6 — Ищем референсы",
-        description="Открываем Pinterest и собираем фото как образец для внешности модели 📌",
+        title="🖼 Уровень 6 — Собираем внешность",
+        description="15 минут 👁 Pinterest → находим лицо модели",
         expected_user_action=(
-            "Открой Pinterest и ищи по запросам:\n\n"
-            "👤 Лицо — нужно 6–8 фото:\n"
-            "• girl face\n"
-            "• aesthetic girl\n"
-            "• i-esthetic\n\n"
-            "👗 Фигура — нужно 2–3 фото:\n"
-            "• bodycon outfit\n"
-            "• sport outfit bodycon\n\n"
-            "⚠️ Правила:\n"
-            "• Лица — разные девушки\n"
-            "• На фото фигуры — обрежь лицо\n\n"
-            "💡 Нажми кнопку ниже —\n"
-            "я подберу знаменитостей под твой лор!\n\n"
-            "✅ Собрал фото? Напиши «Готово» 👇"
+            "Pinterest → ищи:\n\n"
+            "👤 Лицо (6–8 фото):\n"
+            "aesthetic girl face\n"
+            "korean girl face\n\n"
+            "👗 Фигура (2–3 фото):\n"
+            "bodycon outfit\n\n"
+            "⚠️ Лица — разные девушки\n"
+            "⚠️ На фото тела — лицо обрежь\n\n"
+            "💡 Нажми «Референсы» —\n"
+            "подберу знаменитостей под твой вайб!\n\n"
+            "Собрал? Пиши 👇"
         ),
         estimated_minutes=15,
         payload_json=json.dumps({
+            "achievement": "👁 ОБРАЗ НАЙДЕН — ты знаешь как она выглядит",
+            "secret": "Нейросеть работает точнее при 6+ разных фото одного типа лица — качество растёт нелинейно.",
             "queries": {
-                "face": ["girl face", "aesthetic girl", "i-esthetic"],
-                "body": ["bodycon outfit", "sport outfit bodycon"]
+                "face": ["aesthetic girl face", "korean girl face"],
+                "body": ["bodycon outfit"]
             },
             "minimums": {"face_photos": 6, "body_photos": 2}
         }, ensure_ascii=False),
@@ -209,32 +193,26 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.APPEARANCE,
         order_index=7,
-        title="⚡ Шаг 7 — Генерируем внешность",
-        description="Создаём первые фото AI-модели. Загружаем референсы → вставляем промпт → получаем результат 🎨",
+        title="⚡ Уровень 7 — Рождение модели",
+        description="20 минут 🔥 Сейчас ты увидишь её впервые",
         expected_user_action=(
-            "1️⃣ Открой <a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a>\n\n"
-            "2️⃣ Выбери модель: Nano Banana 2\n\n"
-            "3️⃣ Загрузи:\n"
-            "• 6 фото лица\n"
-            "• 2–3 фото фигуры\n\n"
-            "4️⃣ Скопируй промпт (замени [скобки]):\n\n"
-            "┌─────────────────────────────┐\n"
-            "A [возраст]-year-old [национальность] girl,\n"
-            "casual smartphone photo,\n"
-            "natural lighting,\n"
-            "slight imperfections like real iPhone photo,\n"
-            "candid framing, [вайб],\n"
-            "same face shape, same eye color, same skin tone\n"
-            "└─────────────────────────────┘\n\n"
-            "5️⃣ Нажми генерировать\n"
-            "6️⃣ Сохрани 1–3 лучших фото\n\n"
-            "✅ Получились фото? Напиши «Готово» 👇"
+            "1️⃣ <a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a> → модель: Nano Banana 2\n"
+            "2️⃣ Загрузи: 6 фото лица + 2 фото тела\n"
+            "3️⃣ Промпт:\n\n"
+            "┌──────────────────────────┐\n"
+            "A [возраст]-year-old [нац] girl,\n"
+            "casual iPhone selfie,\n"
+            "natural lighting, [вайб],\n"
+            "same face, same eyes, same skin\n"
+            "└──────────────────────────┘\n\n"
+            "4️⃣ Генерируй → сохрани 2–3 лучших\n\n"
+            "Получилось? Пиши 👇"
         ),
         estimated_minutes=20,
         payload_json=json.dumps({
-            "service": "Genspark — Nano Banana 2",
-            "url": "https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2",
-            "prompt_template": "A {age}-year-old {nationality} girl, casual smartphone photo, natural lighting, slight imperfections like real iPhone photo, candid framing, {vibe}, same face shape, same eye color, same skin tone"
+            "achievement": "⚡ ОНА СУЩЕСТВУЕТ — ты создал человека которого не было",
+            "secret": "Первая AI-модель заработавшая $10k была создана за один уикенд. Инструменты те же что у тебя.",
+            "url": "https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2"
         }, ensure_ascii=False),
     ),
 
@@ -243,43 +221,32 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.PHOTO_PACK,
         order_index=8,
-        title="📸 Шаг 8 — Делаем фото-библиотеку",
-        description="Генерируем 15 фото одной и той же девушки в разных сценах — это весь контент на первый месяц 🗂",
+        title="📸 Уровень 8 — Фото-арсенал",
+        description="30 минут 📦 15 фото = контент на месяц. Один раз — потом просто берёшь.",
         expected_user_action=(
-            "1️⃣ Открой <a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a>\n\n"
-            "2️⃣ Загрузи 1–3 лучших фото из шага 7\n\n"
-            "3️⃣ Для каждого нового фото используй промпт:\n\n"
-            "┌─────────────────────────────┐\n"
+            "<a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a> → загрузи лучшее фото\n\n"
+            "Шаблон:\n"
             "[сцена], same girl, same face,\n"
-            "same identity, casual iPhone photo,\n"
-            "natural lighting, realistic\n"
-            "└─────────────────────────────┘\n\n"
-            "Просто меняй [сцена] на нужное:\n"
-            "• sitting in a café, holding coffee\n"
-            "• walking on city street, golden hour\n"
-            "• at home on sofa, cozy outfit\n"
-            "• at the gym, sport outfit\n"
-            "• mirror selfie, bathroom\n"
-            "• on beach, sunset\n"
-            "• in car, window light\n\n"
-            "Минимум:\n"
-            "✅ 5 селфи\n"
-            "✅ 5 фото по пояс\n"
-            "✅ 5 разных мест\n\n"
-            "✅ Готово? Напиши сколько фото получилось 👇"
+            "iPhone photo, natural light\n\n"
+            "Копируй сцены по одной:\n"
+            "☕ mirror selfie, morning\n"
+            "🚗 car selfie, golden hour\n"
+            "🏋️ gym selfie, sport outfit\n"
+            "☕ café, holding latte\n"
+            "🏙 city street, summer\n"
+            "🛋 home, cozy sofa\n"
+            "🌅 beach, sunset\n"
+            "✈️ airport, travel mood\n"
+            "🌿 forest, autumn\n"
+            "🏊 hotel pool\n\n"
+            "Цель: 5 селфи + 5 полурост + 5 мест\n\n"
+            "Сколько получилось? Пиши 👇"
         ),
         estimated_minutes=30,
         payload_json=json.dumps({
-            "minimums": {"selfies": 5, "half_body": 5, "locations": 5},
-            "scenes": [
-                "sitting in a café, holding coffee",
-                "walking on city street, golden hour",
-                "at home on sofa, cozy outfit",
-                "at the gym, sport outfit",
-                "mirror selfie, bathroom",
-                "on beach, sunset",
-                "in car, window light"
-            ]
+            "achievement": "📦 АРСЕНАЛ ГОТОВ — месяц контента в кармане",
+            "secret": "15 фото = 2 недели контента без новых генераций. Большинство тратят на это часы каждый день.",
+            "minimums": {"selfies": 5, "half_body": 5, "locations": 5}
         }, ensure_ascii=False),
     ),
 
@@ -292,20 +259,31 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=1,
-        title="📸 Instagram — День 1 из 7",
-        description="Первый день! Просто листаем ленту — никаких постов. Алгоритм знакомится с тобой 👀",
+        title="📸 Instagram — День 1 / 7",
+        description="35 минут 👀 Алгоритм учится + копим видео для TikTok",
         expected_user_action=(
-            "Сегодня одно действие:\n\n"
-            "▶️ Открой Instagram\n"
-            "▶️ Листай ленту и Reels 20–30 минут\n"
-            "▶️ Досматривай видео до конца\n"
-            "▶️ Можно поставить 1–2 лайка\n\n"
-            "Всё! Больше ничего не нужно 🙌\n\n"
-            "❌ Не публикуй\n"
-            "❌ Не подписывайся\n\n"
-            "✅ Сделал? Напиши «Готово» 👇"
+            "ОСНОВНОЕ — алгоритм учится:\n"
+            "▶ Reels 20 мин, досматривай до конца\n"
+            "▶ 1–2 лайка — можно\n"
+            "❌ Не постить, не подписываться\n\n"
+            "ПАРАЛЛЕЛЬНО — копим видео:\n"
+            "▶ Kling Motion → создай 3 видео\n\n"
+            "Промпт (замени скобки):\n"
+            "┌──────────────────────────┐\n"
+            "[имя], [возраст]yo, [вайб],\n"
+            "vertical 9:16, cinematic,\n"
+            "slow movement, golden hour,\n"
+            "realistic, no cartoon\n"
+            "└──────────────────────────┘\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=30,
+        estimated_minutes=35,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "parallel_task": "3 видео в Kling Motion",
+            "day": 1, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -313,18 +291,28 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=2,
-        title="📸 Instagram — День 2 из 7",
-        description="День 2 — снова смотрим. Сегодня можно лайкать чуть больше 👍",
+        title="📸 Instagram — День 2 / 7",
+        description="35 минут 📹 Прогрев идёт + ещё 3 видео в копилку",
         expected_user_action=(
-            "Сегодня:\n\n"
-            "▶️ Листай ленту и Reels 20–30 минут\n"
-            "▶️ Поставь 3–5 лайков\n"
-            "▶️ Сохрани 1–2 красивых поста\n\n"
-            "❌ Не публикуй\n"
-            "❌ Не подписывайся\n\n"
-            "✅ Сделал? Напиши «Готово» 👇"
+            "ОСНОВНОЕ:\n"
+            "▶ Reels 20 мин\n"
+            "▶ 3–5 лайков\n"
+            "▶ Сохрани 1–2 поста\n"
+            "❌ Не постить\n\n"
+            "ПАРАЛЛЕЛЬНО:\n"
+            "▶ Kling Motion → ещё 3 видео\n"
+            "Меняй сцену каждый раз:\n"
+            "morning routine / night aesthetic /\n"
+            "city walk / gym session\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=25,
+        estimated_minutes=35,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "parallel_task": "ещё 3 видео в Kling Motion",
+            "day": 2, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -332,20 +320,35 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=3,
-        title="📸 Instagram — День 3 из 7",
-        description="День 3 — последний тихий день. Завтра оживляем профиль 🔥",
+        title="📸 Instagram — День 3 / 7",
+        description="40 минут 🎬 Последний тихий день + финальные видео и подписи",
         expected_user_action=(
-            "Сегодня:\n\n"
-            "▶️ Листай ленту и Reels 20–30 минут\n"
-            "▶️ Поставь 5–7 лайков\n"
-            "▶️ Напиши 1–2 коротких комментария\n\n"
-            "Примеры комментариев (просто скопируй):\n"
-            "• stunning 🔥\n"
-            "• love this 😍\n"
-            "• gorgeous ✨\n\n"
-            "✅ Сделал? Напиши «Готово» 👇"
+            "ОСНОВНОЕ:\n"
+            "▶ Reels 20 мин\n"
+            "▶ 5–7 лайков\n"
+            "▶ 1–2 комментария:\n"
+            "stunning 🔥 / love this ✨ / gorgeous 😍\n\n"
+            "ПАРАЛЛЕЛЬНО — закрываем видео-арсенал:\n"
+            "▶ Kling Motion → ещё 4 видео\n"
+            "Итого должно быть 10 видео ✅\n\n"
+            "▶ ChatGPT → 14 подписей для TikTok:\n"
+            "┌──────────────────────────┐\n"
+            "14 подписей TikTok.\n"
+            "AI-модель [имя], [вайб].\n"
+            "Английский, до 100 символов.\n"
+            "Хуки: POV: / not me... /\n"
+            "tell me why / she really said\n"
+            "└──────────────────────────┘\n\n"
+            "Сохрани подписи — пригодятся завтра!\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=25,
+        estimated_minutes=40,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "parallel_task": "4 видео + 14 подписей TikTok",
+            "day": 3, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -353,33 +356,31 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=4,
-        title="📸 Instagram — День 4 из 7 🎨",
-        description="Сегодня оживляем профиль! Имя, фото, описание и первый пост 🚀",
+        title="📸 Instagram — День 4 / 7 🎨",
+        description="30 минут 🌟 Профиль оживает. Первый пост — модель в мире.",
         expected_user_action=(
-            "Делай по шагам:\n\n"
-            "1️⃣ Имя профиля\n"
-            "→ Поставь имя своей AI-модели\n\n"
-            "2️⃣ Username\n"
-            "→ Формат: имя.ai или имя_virtual\n"
-            "→ Пример: luna.ai / sofia_virtual\n\n"
-            "3️⃣ Аватар\n"
-            "→ Загрузи лучшее фото из библиотеки\n\n"
-            "4️⃣ Bio — вставь в ChatGPT:\n\n"
-            "┌─────────────────────────────┐\n"
-            "Напиши Instagram bio (макс 150 символов).\n"
-            "AI-модель: [имя], возраст: [возраст],\n"
-            "вайб: [вайб].\n"
-            "Загадочно, привлекательно, эмодзи в конце.\n"
-            "На английском языке.\n"
-            "└─────────────────────────────┘\n\n"
-            "5️⃣ Первый пост\n"
-            "→ Опубликуй 1 фото\n"
-            "→ Подпись: просто эмодзи или 1 фраза\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "1️⃣ Имя → имя модели\n"
+            "2️⃣ Username → имя.ai или имя_virtual\n"
+            "3️⃣ Аватар → лучшее фото\n"
+            "4️⃣ Bio → ChatGPT:\n\n"
+            "┌──────────────────────────┐\n"
+            "Bio Instagram 150 символов.\n"
+            "[имя], [вайб]. Загадочно.\n"
+            "Эмодзи. Английский.\n"
+            "└──────────────────────────┘\n\n"
+            "5️⃣ Первый пост:\n"
+            "Фото → подпись → эмодзи → опубликуй\n\n"
+            "Готовые подписи:\n"
+            "• she appeared 🌙\n"
+            "• not real. just vibes ✨\n"
+            "• hello world 🖤\n\n"
+            "Готово? Пиши 👇"
         ),
         estimated_minutes=30,
         payload_json=json.dumps({
-            "checklist": ["Имя установлено", "Username выбран", "Аватар загружен", "Bio написан", "Первый пост опубликован"]
+            "achievement": "🌟 ПРОФИЛЬ ЖИВ — первый пост в мире",
+            "secret": None,
+            "checklist": ["Имя", "Username", "Аватар", "Bio", "Пост"]
         }, ensure_ascii=False),
     ),
 
@@ -388,27 +389,26 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=5,
-        title="📸 Instagram — День 5 из 7 📝",
-        description="Первый день постинга! 2 поста — утром и вечером. Промпты для подписей уже готовы 👇",
+        title="📸 Instagram — День 5 / 7 📝",
+        description="25 минут 📝 2 поста. Подписи уже готовы — просто бери.",
         expected_user_action=(
-            "Сегодня 2 поста:\n\n"
-            "📌 Утром:\n"
-            "→ Выбери фото из библиотеки\n"
-            "→ Подпись — вставь в ChatGPT:\n\n"
-            "┌─────────────────────────────┐\n"
-            "Напиши 5 подписей для Instagram.\n"
-            "AI-модель [имя], вайб: [вайб].\n"
-            "Загадочно, 1–2 предложения, на английском.\n"
-            "Намекай на личность, не раскрывай всё.\n"
-            "└─────────────────────────────┘\n\n"
-            "→ Добавь 3–5 хэштегов\n"
-            "→ Опубликуй\n\n"
-            "📌 Вечером:\n"
-            "→ Ещё одно фото\n"
-            "→ Другая подпись из того же списка\n\n"
-            "✅ Оба поста опубликованы? Напиши «Готово» 👇"
+            "Утром + вечером по 1 посту:\n\n"
+            "Фото → подпись → хэштеги → пост\n\n"
+            "Готовые подписи:\n"
+            "• she's not looking for attention 🖤\n"
+            "• some days she just disappears ✨\n"
+            "• not from here. not from anywhere 🌸\n"
+            "• her eyes tell stories aloud 🌙\n\n"
+            "Хэштеги:\n"
+            "#aimodel #virtualmodel #aestheticgirl\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=30,
+        estimated_minutes=25,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "day": 5, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -416,22 +416,23 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=6,
-        title="📸 Instagram — День 6 из 7 💬",
-        description="Продолжаем постинг и начинаем общаться с аудиторией. Шаблоны ответов уже готовы 👇",
+        title="📸 Instagram — День 6 / 7 💬",
+        description="30 минут 💬 2 поста + отвечаем. Один день до финиша!",
         expected_user_action=(
-            "Сегодня:\n\n"
-            "✅ 2 поста (утро + вечер) как вчера\n\n"
-            "✅ Ответь на все комментарии\n"
-            "Шаблоны (скопируй и используй):\n"
-            "• thank you so much 🤍\n"
-            "• means a lot 🥺✨\n"
-            "• you're so sweet 💕\n"
-            "• glad you like it 😊\n\n"
-            "✅ Поставь 10–15 лайков по нише\n\n"
-            "✅ Подпишись на 5–10 аккаунтов в нише\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "✅ 2 поста (утро + вечер)\n\n"
+            "✅ Ответы на комменты:\n"
+            "thank you 🤍 / means a lot ✨\n"
+            "you're sweet 💕 / stay tuned 🖤\n\n"
+            "✅ 10 лайков по нише\n"
+            "✅ Подпишись на 5 аккаунтов\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=35,
+        estimated_minutes=30,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "day": 6, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -439,22 +440,23 @@ STEP_SEEDS = [
         track=TrackEnum.INSTAGRAM_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=7,
-        title="📸 Instagram — День 7 из 7 🏆",
-        description="Финальный день прогрева Instagram! Ты дошёл до конца первой недели 🎉",
+        title="📸 Instagram — День 7 / 7 🏆",
+        description="25 минут 🏅 ФИНАЛ Instagram. 7 дней. Держал курс.",
         expected_user_action=(
-            "Последний день:\n\n"
-            "✅ 2 поста (утро + вечер)\n\n"
-            "✅ Ответь на все комментарии\n\n"
-            "✅ Загляни в статистику:\n"
-            "→ Сколько подписчиков?\n"
-            "→ Сколько просмотров на Reels?\n\n"
-            "⚠️ Ссылку на TikTok ставь в bio\n"
-            "только после 10 000 просмотров!\n\n"
-            "🎉 Instagram прогрев пройден!\n"
-            "Следующий уровень — TikTok 🎵\n\n"
-            "✅ Напиши «Готово» 👇"
+            "✅ 2 поста\n"
+            "✅ Ответы на комменты\n"
+            "✅ Статистика:\n"
+            "→ подписчики?\n"
+            "→ просмотры Reels?\n\n"
+            "🏆 Instagram неделя — ПРОЙДЕНА!\n"
+            "Следующий уровень: TikTok 🎵\n\n"
+            "Пиши 👇"
         ),
-        estimated_minutes=30,
+        estimated_minutes=25,
+        payload_json=json.dumps({
+            "achievement": "👑 7 ДНЕЙ. ДЕРЖАЛ КУРС. мало кто так делает",
+            "secret": "Аккаунты которые постят первые 7 дней без пропусков получают буст от алгоритма на 3 недели вперёд.",
+        }, ensure_ascii=False),
     ),
 
     # ══════════════════════════════════════════════════════════
@@ -466,20 +468,32 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=1,
-        title="🎵 TikTok — День 1 из 7",
-        description="TikTok прогрев начался! Первые 3 дня только смотрим — алгоритм учится 👀",
+        title="🎵 TikTok — День 1 / 7",
+        description="35 минут 📸 TikTok прогревается + пополняем фото-библиотеку",
         expected_user_action=(
-            "Сегодня одно действие:\n\n"
-            "▶️ Открой TikTok\n"
-            "▶️ Смотри видео в разделе «Для тебя» 30–40 минут\n"
-            "▶️ Досматривай до конца — это важно!\n"
-            "▶️ Можно поставить 1–2 лайка\n\n"
-            "Всё! Больше ничего 🙌\n\n"
-            "❌ Не публикуй\n"
-            "❌ Не подписывайся\n\n"
-            "✅ Сделал? Напиши «Готово» 👇"
+            "ОСНОВНОЕ:\n"
+            "▶ «Для тебя» 30 мин\n"
+            "▶ Досматривай до конца — важно!\n"
+            "▶ 1–2 лайка\n"
+            "❌ Не постить\n\n"
+            "ПАРАЛЛЕЛЬНО — новые фото:\n"
+            "▶ <a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a> → загрузи лучшее фото\n"
+            "▶ Создай 5 новых фото:\n\n"
+            "Новые сцены:\n"
+            "rooftop, city view /\n"
+            "luxury hotel lobby /\n"
+            "art gallery /\n"
+            "rainy window /\n"
+            "neon city night\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=40,
+        estimated_minutes=35,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "parallel_task": "5 новых фото в Genspark",
+            "day": 1, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -487,19 +501,37 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=2,
-        title="🎵 TikTok — День 2 из 7",
-        description="День 2 — продолжаем смотреть. Алгоритм начинает понимать твои интересы 📊",
+        title="🎵 TikTok — День 2 / 7",
+        description="40 минут 🗺 Прогрев + контент-план на месяц",
         expected_user_action=(
-            "Сегодня:\n\n"
-            "▶️ Смотри видео 30–40 минут\n"
-            "▶️ Досматривай до конца\n"
-            "▶️ Поставь 3–5 лайков\n"
-            "▶️ Сохрани 1–2 видео\n\n"
-            "❌ Не публикуй\n"
-            "❌ Не подписывайся\n\n"
-            "✅ Сделал? Напиши «Готово» 👇"
+            "ОСНОВНОЕ:\n"
+            "▶ 30 мин смотришь\n"
+            "▶ 3–5 лайков\n"
+            "▶ Сохрани 1–2 видео\n"
+            "❌ Не постить\n\n"
+            "ПАРАЛЛЕЛЬНО — план на месяц:\n"
+            "▶ ChatGPT → промпт:\n\n"
+            "┌──────────────────────────┐\n"
+            "Контент-план 30 дней.\n"
+            "AI-модель [имя], вайб [вайб].\n"
+            "Instagram + TikTok.\n"
+            "Каждый день:\n"
+            "— фото Instagram + подпись\n"
+            "— видео TikTok + хук\n"
+            "Чередуй: жизнь, эстетика,\n"
+            "тренды, загадки.\n"
+            "Английский.\n"
+            "└──────────────────────────┘\n\n"
+            "Сохрани план — это твоя карта!\n\n"
+            "Готово? Пиши 👇"
         ),
         estimated_minutes=40,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "parallel_task": "контент-план на 30 дней",
+            "day": 2, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -507,20 +539,32 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=3,
-        title="🎵 TikTok — День 3 из 7",
-        description="День 3 — последний тихий день. Завтра оживляем профиль! 🔥",
+        title="🎵 TikTok — День 3 / 7",
+        description="40 минут 📝 Последний тихий день + 14 подписей для Instagram",
         expected_user_action=(
-            "Сегодня:\n\n"
-            "▶️ Смотри видео 30 минут\n"
-            "▶️ Ставь лайки, сохраняй видео\n"
-            "▶️ Напиши 1–2 комментария\n\n"
-            "Примеры (просто скопируй):\n"
-            "• insane 🔥\n"
-            "• so beautiful 😍\n"
-            "• love her energy ✨\n\n"
-            "✅ Сделал? Напиши «Готово» 👇"
+            "ОСНОВНОЕ:\n"
+            "▶ 25 мин смотришь\n"
+            "▶ Лайки, сохранения\n"
+            "▶ 1–2 комментария:\n"
+            "insane 🔥 / so beautiful 😍 / love this ✨\n\n"
+            "ПАРАЛЛЕЛЬНО — подписи для Instagram:\n"
+            "▶ ChatGPT → промпт:\n\n"
+            "┌──────────────────────────┐\n"
+            "14 подписей для Instagram.\n"
+            "AI-модель [имя], [вайб].\n"
+            "Загадочно, 1–2 предложения.\n"
+            "Английский.\n"
+            "└──────────────────────────┘\n\n"
+            "Сохрани — хватит на 2 недели!\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=35,
+        estimated_minutes=40,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "parallel_task": "14 подписей для Instagram",
+            "day": 3, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -528,39 +572,27 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=4,
-        title="🎵 TikTok — День 4 из 7 🎨",
-        description="Оживляем TikTok профиль и публикуем первое видео! 🎬",
+        title="🎵 TikTok — День 4 / 7 🎨",
+        description="35 минут 🎬 Профиль + первое видео. TikTok ожил.",
         expected_user_action=(
-            "Делай по шагам:\n\n"
-            "1️⃣ Имя → то же что в Instagram\n\n"
-            "2️⃣ Username → похожий на Instagram\n"
-            "→ Пример: @luna.ai / @sofia_virtual\n\n"
-            "3️⃣ Аватар → то же фото\n\n"
-            "4️⃣ Bio — вставь в ChatGPT:\n\n"
-            "┌─────────────────────────────┐\n"
-            "Напиши TikTok bio (макс 80 символов).\n"
-            "AI-модель [имя], вайб: [вайб].\n"
-            "Коротко, дерзко, с эмодзи.\n"
-            "На английском.\n"
-            "└─────────────────────────────┘\n\n"
-            "5️⃣ Первое видео:\n"
-            "→ Используй Kling Motion или Grok Imagine\n"
-            "→ Вставь промпт:\n\n"
-            "┌─────────────────────────────┐\n"
-            "[имя], [возраст] years old, [вайб],\n"
-            "vertical video 9:16,\n"
-            "cinematic mood, realistic,\n"
-            "no cartoon effects,\n"
-            "slow natural movement,\n"
-            "golden hour lighting\n"
-            "└─────────────────────────────┘\n\n"
-            "→ Опубликуй видео\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "1️⃣ Имя + username + аватар → как в Instagram\n\n"
+            "2️⃣ Bio → ChatGPT:\n"
+            "┌──────────────────────────┐\n"
+            "TikTok bio 80 символов.\n"
+            "[имя], [вайб]. Дерзко. Английский.\n"
+            "└──────────────────────────┘\n\n"
+            "3️⃣ Первое видео из твоей копилки:\n"
+            "→ Возьми одно из 10 готовых видео\n"
+            "→ Подпись из сохранённого списка\n"
+            "→ Хэштеги: #aimodel #virtualmodel #fyp\n"
+            "→ Опубликуй\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=45,
+        estimated_minutes=35,
         payload_json=json.dumps({
-            "checklist": ["Профиль заполнен", "Аватар загружен", "Bio написан", "Первое видео опубликовано"],
-            "video_tools": ["Kling Motion", "Grok Imagine"]
+            "achievement": "🎬 РЕЖИССЁР — первое видео в эфире",
+            "secret": None,
+            "checklist": ["Профиль", "Bio", "Первое видео"]
         }, ensure_ascii=False),
     ),
 
@@ -569,27 +601,25 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=5,
-        title="🎵 TikTok — День 5 из 7 📝",
-        description="Первый день постинга в TikTok! 2 видео — утром и вечером 🎬",
+        title="🎵 TikTok — День 5 / 7 📝",
+        description="25 минут 📝 2 видео из копилки. Подписи готовы.",
         expected_user_action=(
-            "Сегодня 2 видео:\n\n"
-            "📌 Утром:\n"
-            "→ Создай видео через Kling Motion или Grok Imagine\n"
-            "→ Подпись — вставь в ChatGPT:\n\n"
-            "┌─────────────────────────────┐\n"
-            "Напиши 10 подписей для TikTok.\n"
-            "AI-модель [имя], вайб: [вайб].\n"
-            "На английском, макс 100 символов.\n"
-            "Используй хуки:\n"
-            "POV: / not me... / tell me why /\n"
-            "she really said / the way I...\n"
-            "└─────────────────────────────┘\n\n"
-            "→ Опубликуй\n\n"
-            "📌 Вечером:\n"
-            "→ Второе видео + другая подпись\n\n"
-            "✅ Оба видео опубликованы? Напиши «Готово» 👇"
+            "Утром + вечером по 1 видео:\n\n"
+            "Видео из копилки → подпись → хэштеги → пост\n\n"
+            "Готовые подписи:\n"
+            "• POV: you found her by accident 🌙\n"
+            "• not real but the feeling is 🖤\n"
+            "• she said nothing. said everything 👁\n"
+            "• tell me why she looks unreal 😍\n\n"
+            "Хэштеги: #aimodel #virtualmodel #fyp\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=40,
+        estimated_minutes=25,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "day": 5, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -597,22 +627,22 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=6,
-        title="🎵 TikTok — День 6 из 7 💬",
-        description="Постинг + общение с аудиторией. Шаблоны ответов уже готовы 👇",
+        title="🎵 TikTok — День 6 / 7 💬",
+        description="30 минут 💬 2 видео + комменты. Один день до финала!",
         expected_user_action=(
-            "Сегодня:\n\n"
             "✅ 2 видео (утро + вечер)\n\n"
-            "✅ Ответь на все комментарии\n"
-            "Шаблоны (скопируй и используй):\n"
-            "• thank you 🤍\n"
-            "• you're so kind ✨\n"
-            "• glad you enjoyed it 😊\n"
-            "• stay tuned for more 🔥\n\n"
-            "✅ Смотри видео по нише 20–30 минут\n\n"
-            "✅ Поставь 10–15 лайков\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "✅ Ответы:\n"
+            "thank you 🤍 / glad you found me 🌙\n"
+            "stay tuned 🔥 / means everything 💕\n\n"
+            "✅ 10–15 лайков по нише\n\n"
+            "Готово? Пиши 👇"
         ),
-        estimated_minutes=40,
+        estimated_minutes=30,
+        payload_json=json.dumps({
+            "achievement": None,
+            "secret": None,
+            "day": 6, "total_days": 7
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -620,22 +650,24 @@ STEP_SEEDS = [
         track=TrackEnum.TIKTOK_WARMUP,
         stage=StageEnum.SOCIAL_SETUP,
         day_index=7,
-        title="🎵 TikTok — День 7 из 7 🏆",
-        description="Финальный день прогрева TikTok! Ты прошёл оба уровня — Instagram и TikTok 🎉",
+        title="🎵 TikTok — День 7 / 7 🏆",
+        description="25 минут 🏹 ФИНАЛ TIKTOK. Два прогрева. Один человек.",
         expected_user_action=(
-            "Последний день:\n\n"
-            "✅ 2 видео (утро + вечер)\n\n"
-            "✅ Ответь на все комментарии\n\n"
-            "✅ Загляни в статистику:\n"
-            "→ Сколько просмотров?\n"
-            "→ Сколько подписчиков?\n\n"
-            "⚠️ Ссылку на Instagram ставь\n"
-            "только после 10 000 просмотров!\n\n"
-            "🎉 TikTok прогрев пройден!\n"
-            "Следующий уровень — контент и запуск 🚀\n\n"
-            "✅ Напиши «Готово» 👇"
+            "✅ 2 видео\n"
+            "✅ Ответы на комменты\n"
+            "✅ Аналитика:\n"
+            "→ просмотры?\n"
+            "→ подписчики?\n"
+            "→ лучшее видео?\n\n"
+            "🏆 TikTok — ПРОЙДЕН!\n"
+            "Следующий: запуск и деньги 💰\n\n"
+            "Пиши 👇"
         ),
-        estimated_minutes=35,
+        estimated_minutes=25,
+        payload_json=json.dumps({
+            "achievement": "🏹 ДВЕ ПЛАТФОРМЫ. ОДИН ЧЕЛОВЕК. серьёзная заявка",
+            "secret": "TikTok показывает новые аккаунты 200–500 случайным людям бесплатно. Единственная платформа где ноль подписчиков — не приговор.",
+        }, ensure_ascii=False),
     ),
 
     # ══════════════════════════════════════════════════════════
@@ -647,28 +679,26 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.LAUNCH,
         order_index=9,
-        title="🗂 Шаг 9 — Контент на неделю за 1 промпт",
-        description="Один промпт в ChatGPT — и у тебя готов план на всю неделю 📅",
+        title="🗂 Уровень 9 — Контент-план готов",
+        description="15 минут 🗺 План уже есть — проверь и сохрани",
         expected_user_action=(
-            "1️⃣ Открой ChatGPT\n\n"
-            "2️⃣ Вставь промпт (замени [скобки]):\n\n"
-            "┌─────────────────────────────┐\n"
-            "Создай контент-план на 7 дней\n"
-            "для AI-модели [имя].\n"
-            "Вайб: [вайб].\n"
-            "Платформы: Instagram и TikTok.\n\n"
-            "Для каждого дня:\n"
-            "— идея поста Instagram (фото + подпись)\n"
-            "— идея видео TikTok (концепт + подпись)\n"
-            "— настроение дня\n\n"
-            "Чередуй: жизнь персонажа, эстетика,\n"
-            "трендовые форматы, загадочные детали.\n"
-            "Подписи на английском.\n"
-            "└─────────────────────────────┘\n\n"
-            "3️⃣ Сохрани план — он тебе понадобится каждый день\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
+            "У тебя уже есть контент-план на 30 дней\n"
+            "из дня 2 TikTok-прогрева ✅\n\n"
+            "Если нет — ChatGPT → промпт:\n\n"
+            "┌──────────────────────────┐\n"
+            "Контент-план 30 дней.\n"
+            "AI-модель [имя], вайб [вайб].\n"
+            "Instagram + TikTok.\n"
+            "День: фото + подпись + видео + хук.\n"
+            "Чередуй форматы. Английский.\n"
+            "└──────────────────────────┘\n\n"
+            "Сохранил план? Пиши 👇"
         ),
         estimated_minutes=15,
+        payload_json=json.dumps({
+            "achievement": "🗺 СТРАТЕГ — план на месяц в руках",
+            "secret": "Контент-план снижает время на производство с 2 часов до 20 минут в день.",
+        }, ensure_ascii=False),
     ),
 
     StepSeed(
@@ -676,33 +706,35 @@ STEP_SEEDS = [
         track=TrackEnum.MAIN,
         stage=StageEnum.LAUNCH,
         order_index=10,
-        title="🚀 Шаг 10 — Ты запущен!",
-        description="Финальный шаг! Сохрани свой ежедневный план — всего 30–40 минут в день 🎯",
+        title="🚀 Уровень 10 — ЗАПУСК",
+        description="10 минут 💰 Последний шаг. После этого всё по-другому.",
         expected_user_action=(
-            "Твой ежедневный план:\n\n"
-            "🌅 Утро (15–20 мин):\n"
-            "▶️ Пост в Instagram\n"
-            "▶️ Видео в TikTok\n"
-            "▶️ Ответы на комментарии\n\n"
-            "🌆 Вечер (15–20 мин):\n"
-            "▶️ Второй пост/видео\n"
-            "▶️ Посмотри тренды (15 мин)\n"
-            "▶️ Запиши 1–2 идеи\n\n"
-            "📅 Раз в неделю (1 час):\n"
-            "▶️ Новые фото в <a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a>\n"
-            "▶️ Контент-план на следующую неделю\n"
-            "▶️ Смотри что набрало больше просмотров\n\n"
-            "🏆 Поздравляю!\n"
-            "Твоя AI-модель живёт и работает.\n"
-            "Напиши «Поехали!» 🚀"
+            "Сохрани себе:\n\n"
+            "🌅 Утро (15 мин):\n"
+            "▶ Пост Instagram\n"
+            "▶ Видео TikTok\n"
+            "▶ Ответы\n\n"
+            "🌆 Вечер (15 мин):\n"
+            "▶ Второй пост\n"
+            "▶ 2 идеи на завтра\n\n"
+            "📅 Раз в неделю:\n"
+            "▶ Фото → <a href=\"https://www.genspark.ai/invite_member?invite_code=M2YzNGY2MTNMMThkOEw3NzczTGEyNmJMOGYxYjMzODg0OGM2\">Genspark</a>\n"
+            "▶ Новый контент-план\n\n"
+            "💰 Дорожная карта:\n"
+            "1 000 подп → Patreon\n"
+            "5 000 подп → платная подписка\n"
+            "10 000 подп → бренды и реклама\n\n"
+            "🚀 Напиши «Поехали!» 👇"
         ),
         estimated_minutes=10,
         payload_json=json.dumps({
-            "daily_schedule": {
-                "morning": ["Instagram пост", "TikTok видео", "Ответы на комментарии"],
-                "evening": ["Второй пост/видео", "Анализ трендов", "Идеи контента"]
-            },
-            "weekly": ["Генерация фото в Genspark", "Контент-план", "Аналитика"]
+            "achievement": "🚀 ЗАПУЩЕН. ТОЧКА. теперь только вперёд",
+            "secret": "Средний доход топ-10% AI-моделей — $3 000–8 000 в месяц. Это не блогерство — это актив.",
+            "monetization": {
+                "1000": "Patreon",
+                "5000": "Платная подписка",
+                "10000": "Бренды и реклама"
+            }
         }, ensure_ascii=False),
     ),
 ]
@@ -710,7 +742,7 @@ STEP_SEEDS = [
 
 async def seed_steps(session: AsyncSession) -> None:
     result = await session.execute(select(Step))
-    existing = result.scalars().first()
+    existing = result.scalars().all()
     if existing:
         return
 
@@ -726,8 +758,7 @@ async def seed_steps(session: AsyncSession) -> None:
             expected_user_action=seed.expected_user_action,
             estimated_minutes=seed.estimated_minutes,
             payload_json=seed.payload_json,
-            difficulty=seed.difficulty,
-            is_active=seed.is_active,
+            is_active=True,
         )
         session.add(step)
 

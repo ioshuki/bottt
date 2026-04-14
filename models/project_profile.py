@@ -16,6 +16,11 @@ class ProjectProfile(Base):
     platforms: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     character_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    nationality: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    vibe: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    audience: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    signature_trait: Mapped[str | None] = mapped_column(String(255), nullable=True)
+
     lore_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
     appearance_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
     location_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
