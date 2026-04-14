@@ -54,11 +54,14 @@ async def send_daily_plans(bot: Bot) -> None:
                 await bot.send_message(
                     chat_id=user.telegram_id,
                     text=step_text(step),
+                    parse_mode="HTML",
                     reply_markup=step_actions_keyboard(),
                 )
 
                 profile = await project_repo.get_by_user_id(user.id)
-                help_message = await coach_service.generate_daily_task_help(user, profile, step)
+                help_message = await coach_service.generate_daily_task_help(
+                    user, profile, step
+                )
 
                 await bot.send_message(
                     chat_id=user.telegram_id,
@@ -70,6 +73,6 @@ async def send_daily_plans(bot: Bot) -> None:
                 await session.commit()
 
             except Exception as e:
-                print(f"[scheduler] error for user {user.telegram_id}: {e}")
+                print(f"[scheduler] ошибка для пользователя {user.telegram_id}: {e}")
                 await session.rollback()
                 continue
