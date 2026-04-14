@@ -44,6 +44,7 @@ async def cb_check_subscription(callback: CallbackQuery, session: AsyncSession) 
     if step:
         await callback.message.answer(
             step_text(step),
+            parse_mode="HTML",
             reply_markup=step_actions_keyboard(),
         )
 
@@ -76,6 +77,7 @@ async def cb_step_done(callback: CallbackQuery, session: AsyncSession) -> None:
         await callback.message.answer(next_step_intro_text())
         await callback.message.answer(
             step_text(next_step),
+            parse_mode="HTML",
             reply_markup=step_actions_keyboard(),
         )
     else:
@@ -127,11 +129,12 @@ async def cb_step_example(callback: CallbackQuery, session: AsyncSession) -> Non
         await callback.answer()
         return
 
+    await callback.answer("Генерирую пример... ⏳")
+
     profile = await project_repo.get_by_user_id(user.id)
     example = await coach_service.generate_example(user, profile, step)
 
     await callback.message.answer(example)
-    await callback.answer()
 
 
 @router.callback_query(F.data == "step_simplify")
@@ -154,11 +157,12 @@ async def cb_step_simplify(callback: CallbackQuery, session: AsyncSession) -> No
         await callback.answer()
         return
 
+    await callback.answer("Упрощаю задачу... ⏳")
+
     profile = await project_repo.get_by_user_id(user.id)
     simplified = await coach_service.simplify_step(user, profile, step)
 
     await callback.message.answer(simplified)
-    await callback.answer()
 
 
 @router.callback_query(F.data == "step_references")
