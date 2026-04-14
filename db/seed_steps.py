@@ -21,7 +21,7 @@ STEP_SEEDS = [
         order_index=1,
         title="📱 Шаг 1 — Настройка телефона",
         description="Настраиваем телефон — займёт 5 минут. Это нужно чтобы Instagram и TikTok давали международные охваты 🌍",
-                expected_user_action=(
+        expected_user_action=(
             "Делай по шагам:\n\n"
             "1️⃣ Настройки → Основные → Язык\n"
             "→ Поставь: English (US)\n\n"
@@ -705,65 +705,29 @@ STEP_SEEDS = [
             "weekly": ["Генерация фото в Genspark", "Контент-план", "Аналитика"]
         }, ensure_ascii=False),
     ),
-
-    # ══════════════════════════════════════════════════════════
-    # RECURRING — TELEGRAM DAILY
-    # ══════════════════════════════════════════════════════════
-
-    StepSeed(
-        step_code="telegram_daily_post",
-        track=TrackEnum.TELEGRAM_DAILY,
-        stage=StageEnum.LAUNCH,
-        title="💬 Telegram — Ежедневный пост",
-        description="Публикуем пост в Telegram-канале модели. Промпт готов — просто копируй и вставляй 📋",
-        expected_user_action=(
-            "1️⃣ Открой ChatGPT\n\n"
-            "2️⃣ Вставь промпт (замени [скобки]):\n\n"
-            "┌─────────────────────────────┐\n"
-            "Напиши пост (2–4 предложения)\n"
-            "от лица AI-модели [имя].\n"
-            "Вайб: [вайб].\n\n"
-            "Выбери тип (один):\n"
-            "настроение / мысль о жизни /\n"
-            "маленькая история / намёк на закулисье /\n"
-            "загадочный факт о ней.\n\n"
-            "На русском языке.\n"
-            "Добавь 1–2 эмодзи.\n"
-            "└─────────────────────────────┘\n\n"
-            "3️⃣ Опубликуй в Telegram-канале\n\n"
-            "✅ Готово? Напиши «Готово» 👇"
-        ),
-        estimated_minutes=10,
-        is_recurring=True,
-        payload_json=json.dumps({
-            "post_types": ["настроение", "мысль о жизни", "маленькая история", "закулисье", "загадочный факт"],
-            "prompt_template": "Напиши пост (2–4 предложения) от лица AI-модели {name}. Вайб: {vibe}. Тип: {type}. На русском языке. Добавь 1–2 эмодзи."
-        }, ensure_ascii=False),
-    ),
 ]
 
 
 async def seed_steps(session: AsyncSession) -> None:
-    result = await session.execute(select(Step.id).limit(1))
-    existing = result.scalar_one_or_none()
-    if existing is not None:
+    result = await session.execute(select(Step))
+    existing = result.scalars().first()
+    if existing:
         return
 
-    for item in STEP_SEEDS:
+    for seed in STEP_SEEDS:
         step = Step(
-            step_code=item.step_code,
-            track=item.track,
-            stage=item.stage,
-            order_index=item.order_index,
-            day_index=item.day_index,
-            title=item.title,
-            description=item.description,
-            expected_user_action=item.expected_user_action,
-            estimated_minutes=item.estimated_minutes,
-            difficulty=item.difficulty,
-            payload_json=item.payload_json,
-            is_active=item.is_active,
-            is_recurring=item.is_recurring,
+            step_code=seed.step_code,
+            track=seed.track,
+            stage=seed.stage,
+            order_index=seed.order_index,
+            day_index=seed.day_index,
+            title=seed.title,
+            description=seed.description,
+            expected_user_action=seed.expected_user_action,
+            estimated_minutes=seed.estimated_minutes,
+            payload_json=seed.payload_json,
+            difficulty=seed.difficulty,
+            is_active=seed.is_active,
         )
         session.add(step)
 
