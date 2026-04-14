@@ -27,9 +27,11 @@ def step_actions_keyboard() -> InlineKeyboardMarkup:
 def settings_mode_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="🐢 Easy", callback_data="set_mode:easy")],
-            [InlineKeyboardButton(text="⚖️ Normal", callback_data="set_mode:normal")],
-            [InlineKeyboardButton(text="🚀 Sprint", callback_data="set_mode:sprint")],
+            [
+                InlineKeyboardButton(text="🐢 Easy", callback_data="set_mode:easy"),
+                InlineKeyboardButton(text="⚖️ Normal", callback_data="set_mode:normal"),
+                InlineKeyboardButton(text="🚀 Sprint", callback_data="set_mode:sprint"),
+            ],
             [InlineKeyboardButton(text="🕒 Изменить время", callback_data="settings_time")],
             [
                 InlineKeyboardButton(
@@ -51,6 +53,10 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
             [
                 KeyboardButton(text="📊 Мой прогресс"),
                 KeyboardButton(text="🧠 Помощь коуча"),
+            ],
+            [
+                KeyboardButton(text="⏸ Пауза"),
+                KeyboardButton(text="▶️ Продолжить"),
             ],
             [
                 KeyboardButton(text="⚙️ Настройки"),
