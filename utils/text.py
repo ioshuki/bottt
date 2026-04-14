@@ -177,3 +177,66 @@ def step_done_text() -> str:
 
 def next_step_intro_text() -> str:
     return "➡️ Следующий шаг:"
+
+
+# ── Gamification helpers ───────────────────────────────────────────────────────
+
+TOTAL_STEPS = 26
+
+TITLES = [
+    (0,  "НИКО"),
+    (2,  "СТРОИТЕЛЬ"),
+    (4,  "СОЗДАТЕЛЬ"),
+    (6,  "АРХИТЕКТОР"),
+    (8,  "ПРОДЮСЕР"),
+    (9,  "ЭЛИТА"),
+    (10, "БОСС"),
+]
+
+
+def progress_bar(done: int, total: int = TOTAL_STEPS) -> str:
+    filled = round(done / total * 10) if total else 0
+    bar = "▓" * filled + "░" * (10 - filled)
+    pct = round(done / total * 100) if total else 0
+    return f"[{bar}] {pct}%"
+
+
+def title_for_progress(done: int) -> str:
+    title = TITLES[0][1]
+    for threshold, name in TITLES:
+        if done >= threshold:
+            title = name
+    return title
+
+
+def get_title_unlock_message(done: int) -> str | None:
+    for threshold, name in TITLES:
+        if done == threshold and threshold > 0:
+            return f"🏆 Новый титул: <b>{name}</b>"
+    return None
+
+
+def step_completed_text(
+    done: int,
+    total: int = TOTAL_STEPS,
+    achievement: str | None = None,
+    secret: str | None = None,
+) -> str:
+    bar   = progress_bar(done, total)
+    title = title_for_progress(done)
+    lines = [f"⚡ ШАГ ЗАКРЫТ\n{bar}\nТитул: <b>{title}</b>"]
+    if achievement:
+        lines.append(f"🎖 {achievement}")
+    unlock = get_title_unlock_message(done)
+    if unlock:
+        lines.append(unlock)
+    if secret:
+        lines.append(f"\n🔓 Секрет:\n{secret}")
+    return "\n".join(lines)
+
+
+def achievements_text(badges: list[str]) -> str:
+    if not badges:
+        return "😶 Пока нет достижений. Закрой первый шаг!"
+    joined = "\n".join(f"  {b}" for b in badges)
+    return f"🏅 <b>Твои достижения:</b>\n\n{joined}"
