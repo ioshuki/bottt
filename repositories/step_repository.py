@@ -1,4 +1,3 @@
-cat > /Users/a1234/ai_coach_bot/repositories/step_repository.py << 'ENDOFFILE'
 from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -81,4 +80,3 @@ class StepRepository:
             .order_by(Step.order_index.asc())
         )
         return list(result.scalars().all())
-ENDOFFILE
