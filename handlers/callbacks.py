@@ -4,7 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from services.factory import build_services
 from utils.keyboards import main_menu_keyboard, step_actions_keyboard, subscription_keyboard
-from utils.text import next_step_intro_text, start_text, step_done_text, step_text
+from utils.motivations import get_praise_phrase
+from utils.text import next_step_intro_text, start_text, step_text
+from utils.labels import mode_label, timezone_label
 
 CHANNEL = "@Ai_735Agency"
 
@@ -71,7 +73,8 @@ async def cb_step_done(callback: CallbackQuery, session: AsyncSession) -> None:
 
     next_step = await step_service.mark_step_done(user, step)
 
-    await callback.message.answer(step_done_text())
+    # Мотивационная похвала вместо статичного текста
+    await callback.message.answer(get_praise_phrase())
 
     if next_step:
         await callback.message.answer(next_step_intro_text())
@@ -81,7 +84,10 @@ async def cb_step_done(callback: CallbackQuery, session: AsyncSession) -> None:
             reply_markup=step_actions_keyboard(),
         )
     else:
-        await callback.message.answer("🎉 Похоже, ты прошёл все шаги. Молодец!")
+        await callback.message.answer(
+            "🎉 Ты прошёл все шаги! AI-модель создана. Легенда 🏆",
+            reply_markup=main_menu_keyboard(),
+        )
 
     await callback.answer()
 
@@ -102,9 +108,8 @@ async def cb_step_status(callback: CallbackQuery, session: AsyncSession) -> None
 
     await callback.message.answer(
         f"📊 Мини-статус\n\n"
-        f"Этап: {user.current_stage}\n"
-        f"Шаг ID: {user.current_step_id}\n"
-        f"Прогресс: {done}/{total}"
+        f"📍 Этап: {user.current_stage}\n"
+        f"✅ Выполнено: {done}/{total} шагов"
     )
     await callback.answer()
 
@@ -221,8 +226,10 @@ async def cb_set_mode(callback: CallbackQuery, session: AsyncSession) -> None:
     mode = callback.data.split(":", 1)[1]
     await settings_service.update_mode(user, mode)
 
-    await callback.message.answer(f"⚙️ Готово. Новый режим сохранён: {mode}")
-    await callback.answer("Режим обновлён")
+    await callback.message.answer(
+        f"⚙️ Готово. Новый режим: {mode_label(mode)}"
+    )
+    await callback.answer("Режим обновлён ✅")
 
 
 @router.callback_query(F.data.startswith("set_timezone:"))
@@ -241,6 +248,6 @@ async def cb_set_timezone(callback: CallbackQuery, session: AsyncSession) -> Non
     await settings_service.update_timezone(user, timezone_value)
 
     await callback.message.answer(
-        f"🌍 Готово. Новый часовой пояс сохранён: {timezone_value}"
+        f"🌍 Готово. Часовой пояс: {timezone_label(timezone_value)}"
     )
-    await callback.answer("Часовой пояс обновлён")
+    await callback.answer("Часовой пояс обновлён ✅")
