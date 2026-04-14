@@ -21,14 +21,15 @@ STEP_SEEDS = [
         order_index=1,
         title="📱 Шаг 1 — Настройка телефона",
         description="Настраиваем телефон — займёт 5 минут. Это нужно чтобы Instagram и TikTok давали международные охваты 🌍",
-        expected_user_action=(
+                expected_user_action=(
             "Делай по шагам:\n\n"
             "1️⃣ Настройки → Основные → Язык\n"
             "→ Поставь: English (US)\n\n"
             "2️⃣ Настройки → Основные → Регион\n"
             "→ Поставь: United States\n\n"
-            "3️⃣ Скачай VPN:\n"
-            "→ ProtonVPN или Windscribe (бесплатно)\n"
+            "3️⃣ Скачай VPN (бесплатно):\n"
+            "→ <a href=\"https://lunox.run/?ref=5455901100\">LUNOX</a>\n"
+            "→ <a href=\"https://t.me/VPNo4ka_Robot?start=slovo95\">VPNo4ka</a>\n"
             "→ Выбери сервер USA → Включи\n\n"
             "Всё! Телефон готов 🎉\n\n"
             "✅ Готово? Напиши «Готово» 👇"

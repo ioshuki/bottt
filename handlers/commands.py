@@ -57,11 +57,11 @@ async def cmd_start(message: Message, session: AsyncSession) -> None:
     )
 
     if created:
-        await message.answer_photo(
-            photo="https://i.imgur.com/placeholder.jpg",
-            caption=start_text(),
-            reply_markup=main_menu_keyboard(),
-        )
+        await message.answer(
+    start_text(),
+    reply_markup=main_menu_keyboard(),
+    )
+
     else:
         await message.answer(
             "👋 Рад видеть тебя снова!\n\n"
@@ -74,7 +74,8 @@ async def cmd_start(message: Message, session: AsyncSession) -> None:
     if step:
         await message.answer(
             step_text(step),
-            reply_markup=step_actions_keyboard(),
+            rreply_markup=step_actions_keyboard(),
+
         )
 
 
