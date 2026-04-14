@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  ai_coach_bot:
+    build: .
+    container_name: ai_coach_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
