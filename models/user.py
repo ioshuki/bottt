@@ -16,7 +16,7 @@ class User(Base):
     name: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     language: Mapped[str] = mapped_column(String(20), default="ru", nullable=False)
-    timezone: Mapped[str] = mapped_column(String(100), default="Europe/Moscow", nullable=False)
+    timezone: Mapped[str] = mapped_column(String(100), default="Asia/Novosibirsk", nullable=False)
     daily_time: Mapped[str] = mapped_column(String(10), default="10:00", nullable=False)
     mode: Mapped[ModeEnum] = mapped_column(Enum(ModeEnum), default=ModeEnum.NORMAL, nullable=False)
 
