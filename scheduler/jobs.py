@@ -6,6 +6,7 @@ from aiogram import Bot
 from db.session import SessionLocal
 from services.factory import build_services
 from utils.keyboards import main_menu_keyboard, step_actions_keyboard
+from utils.motivations import get_lazy_phrase
 from utils.text import step_text, today_card_text
 
 
@@ -75,4 +76,46 @@ async def send_daily_plans(bot: Bot) -> None:
             except Exception as e:
                 print(f"[scheduler] ошибка для пользователя {user.telegram_id}: {e}")
                 await session.rollback()
+                continue
+
+
+async def send_reminders(bot: Bot) -> None:
+    async with SessionLocal() as session:
+        services = build_services(session)
+        user_repo = services["user_repo"]
+        progress_repo = services["progress_repo"]
+
+        users = await user_repo.list_active_users()
+
+        for user in users:
+            try:
+                if user.is_paused:
+                    continue
+
+                if not user.current_step_id:
+                    continue
+
+                user_now = datetime.now(ZoneInfo(user.timezone))
+                today = user_now.date()
+
+                last_done = await progress_repo.get_last_done_date(user.id)
+
+                if last_done is None:
+                    days_inactive = 1
+                else:
+                    days_inactive = (today - last_done).days
+
+                if days_inactive < 1:
+                    continue
+
+                phrase = get_lazy_phrase(days_inactive)
+
+                await bot.send_message(
+                    chat_id=user.telegram_id,
+                    text=phrase,
+                    reply_markup=main_menu_keyboard(),
+                )
+
+            except Exception as e:
+                print(f"[reminder] ошибка для пользователя {user.telegram_id}: {e}")
                 continue

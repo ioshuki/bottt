@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -60,3 +62,15 @@ class ProgressRepository:
         total = total_result.scalar_one() or 0
         done = done_result.scalar_one() or 0
         return done, total
+
+    async def get_last_done_date(self, user_id: int) -> date | None:
+        result = await self.session.execute(
+            select(UserStepProgress.updated_at).where(
+                UserStepProgress.user_id == user_id,
+                UserStepProgress.status == ProgressStatusEnum.DONE,
+            ).order_by(UserStepProgress.updated_at.desc()).limit(1)
+        )
+        row = result.scalar_one_or_none()
+        if row is None:
+            return None
+        return row.date() if hasattr(row, "date") else None
