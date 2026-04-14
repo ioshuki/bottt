@@ -73,7 +73,6 @@ async def cb_step_done(callback: CallbackQuery, session: AsyncSession) -> None:
 
     next_step = await step_service.mark_step_done(user, step)
 
-    # Мотивационная похвала вместо статичного текста
     await callback.message.answer(get_praise_phrase())
 
     if next_step:
@@ -226,9 +225,7 @@ async def cb_set_mode(callback: CallbackQuery, session: AsyncSession) -> None:
     mode = callback.data.split(":", 1)[1]
     await settings_service.update_mode(user, mode)
 
-    await callback.message.answer(
-        f"⚙️ Готово. Новый режим: {mode_label(mode)}"
-    )
+    await callback.message.answer(f"⚙️ Готово. Новый режим: {mode_label(mode)}")
     await callback.answer("Режим обновлён ✅")
 
 
