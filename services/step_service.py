@@ -1,7 +1,8 @@
+cat > /Users/a1234/ai_coach_bot/services/step_service.py << 'ENDOFFILE'
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from models.enums import ProgressStatusEnum
+from models.enums import ProgressStatusEnum, TrackEnum
 from models.step import Step
 from models.user import User
 from repositories.daily_plan_repository import DailyPlanRepository
@@ -68,13 +69,17 @@ class StepService:
             user_now = datetime.now(ZoneInfo(user.timezone))
             today_plan = await self.daily_plan_repo.find_today_plan(user.id, user_now.date())
             if today_plan and not today_plan.completed:
-                step_ids = [item.strip() for item in (today_plan.step_ids or "").split(",") if item.strip()]
+                step_ids = [
+                    item.strip()
+                    for item in (today_plan.step_ids or "").split(",")
+                    if item.strip()
+                ]
                 if str(step.id) in step_ids:
                     await self.daily_plan_repo.mark_completed(today_plan)
         except Exception:
             pass
 
-        next_step = await self.step_repo.get_next_step(step)
+        next_step = await self._get_next_step(step)
         if next_step:
             await self.user_repo.update(
                 user,
@@ -83,6 +88,18 @@ class StepService:
             )
             return next_step
 
+        return None
+
+    async def _get_next_step(self, step: Step) -> Step | None:
+        if step.track == TrackEnum.MAIN:
+            return await self.step_repo.get_next_step(step)
+        elif step.track in (TrackEnum.INSTAGRAM_WARMUP, TrackEnum.TIKTOK_WARMUP):
+            next_warmup = await self.step_repo.get_next_warmup_step(step)
+            if next_warmup:
+                return next_warmup
+            if step.track == TrackEnum.INSTAGRAM_WARMUP:
+                return await self.step_repo.get_first_warmup_step(TrackEnum.TIKTOK_WARMUP)
+            return None
         return None
 
     async def mark_step_in_progress(self, user: User, step: Step) -> None:
@@ -103,3 +120,4 @@ class StepService:
                 current_stage=first_step.stage,
                 is_paused=False,
             )
+ENDOFFILE
