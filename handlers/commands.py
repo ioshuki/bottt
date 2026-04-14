@@ -58,10 +58,9 @@ async def cmd_start(message: Message, session: AsyncSession) -> None:
 
     if created:
         await message.answer(
-    start_text(),
-    reply_markup=main_menu_keyboard(),
-    )
-
+            start_text(),
+            reply_markup=main_menu_keyboard(),
+        )
     else:
         await message.answer(
             "👋 Рад видеть тебя снова!\n\n"
@@ -74,8 +73,8 @@ async def cmd_start(message: Message, session: AsyncSession) -> None:
     if step:
         await message.answer(
             step_text(step),
-            rreply_markup=step_actions_keyboard(),
-
+            parse_mode="HTML",
+            reply_markup=step_actions_keyboard(),
         )
 
 
@@ -124,6 +123,7 @@ async def cmd_today(message: Message, session: AsyncSession) -> None:
 
     await message.answer(
         step_text(step),
+        parse_mode="HTML",
         reply_markup=step_actions_keyboard(),
     )
 
@@ -171,6 +171,7 @@ async def cmd_done(message: Message, session: AsyncSession) -> None:
         )
         await message.answer(
             step_text(next_step),
+            parse_mode="HTML",
             reply_markup=step_actions_keyboard(),
         )
     else:
