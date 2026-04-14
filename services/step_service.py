@@ -1,4 +1,3 @@
-cat > /Users/a1234/ai_coach_bot/services/step_service.py << 'ENDOFFILE'
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -120,4 +119,3 @@ class StepService:
                 current_stage=first_step.stage,
                 is_paused=False,
             )
-ENDOFFILE
