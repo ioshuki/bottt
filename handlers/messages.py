@@ -22,6 +22,8 @@ from utils.validators import looks_like_meaningful_step_response
 
 router = Router()
 
+DONE_PHRASES = {"готово", "готов", "сделал", "сделала", "done", "поехали", "выполнено"}
+
 
 @router.message(F.text == "🚀 Мой шаг сегодня")
 async def menu_today(message: Message, session: AsyncSession) -> None:
@@ -51,6 +53,7 @@ async def menu_today(message: Message, session: AsyncSession) -> None:
     )
     await message.answer(
         step_text(step),
+        parse_mode="HTML",
         reply_markup=step_actions_keyboard(),
     )
 
@@ -77,25 +80,17 @@ async def menu_done(message: Message, session: AsyncSession) -> None:
 
     next_step = await step_service.mark_step_done(user, step)
 
-    await message.answer(
-        step_done_text(),
-        reply_markup=main_menu_keyboard(),
-    )
+    await message.answer(step_done_text(), reply_markup=main_menu_keyboard())
 
     if next_step:
-        await message.answer(
-            next_step_intro_text(),
-            reply_markup=main_menu_keyboard(),
-        )
+        await message.answer(next_step_intro_text(), reply_markup=main_menu_keyboard())
         await message.answer(
             step_text(next_step),
+            parse_mode="HTML",
             reply_markup=step_actions_keyboard(),
         )
     else:
-        await message.answer(
-            "🎉 Похоже, ты прошёл все шаги.",
-            reply_markup=main_menu_keyboard(),
-        )
+        await message.answer("🎉 Похоже, ты прошёл все шаги.", reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "📊 Мой прогресс")
@@ -110,10 +105,7 @@ async def menu_status(message: Message, session: AsyncSession) -> None:
         return
 
     done, total = await progress_repo.get_progress_counts(user.id)
-    await message.answer(
-        status_text(user, done, total),
-        reply_markup=main_menu_keyboard(),
-    )
+    await message.answer(status_text(user, done, total), reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "🧠 Помощь коуча")
@@ -133,10 +125,7 @@ async def menu_pause(message: Message, session: AsyncSession) -> None:
         return
 
     await settings_service.pause(user)
-    await message.answer(
-        "⏸️ Пауза включена. Я временно не буду тебя подгонять.",
-        reply_markup=main_menu_keyboard(),
-    )
+    await message.answer("⏸️ Пауза включена. Я временно не буду тебя подгонять.", reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "▶️ Продолжить")
@@ -151,10 +140,7 @@ async def menu_resume(message: Message, session: AsyncSession) -> None:
         return
 
     await settings_service.resume(user)
-    await message.answer(
-        "▶️ Супер, продолжаем работу.",
-        reply_markup=main_menu_keyboard(),
-    )
+    await message.answer("▶️ Супер, продолжаем работу.", reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "⚙️ Настройки")
@@ -187,6 +173,7 @@ async def handle_text_message(message: Message, session: AsyncSession) -> None:
 
     lowered = message.text.lower().strip()
 
+    # ── Обработка времени ─────────────────────────────────
     if lowered.startswith("время "):
         services = build_services(session)
         user_repo = services["user_repo"]
@@ -201,38 +188,56 @@ async def handle_text_message(message: Message, session: AsyncSession) -> None:
         parts = new_time.split(":")
 
         if len(parts) != 2 or not parts[0].isdigit() or not parts[1].isdigit():
-            await message.answer(
-                "Неверный формат времени. Используй так: время 09:30",
-                reply_markup=main_menu_keyboard(),
-            )
+            await message.answer("Неверный формат времени. Используй так: время 09:30", reply_markup=main_menu_keyboard())
             return
 
-        hours = int(parts[0])
-        minutes = int(parts[1])
+        hours, minutes = int(parts[0]), int(parts[1])
 
         if not (0 <= hours <= 23 and 0 <= minutes <= 59):
-            await message.answer(
-                "Время вне диапазона. Используй формат от 00:00 до 23:59.",
-                reply_markup=main_menu_keyboard(),
-            )
+            await message.answer("Время вне диапазона. Используй формат от 00:00 до 23:59.", reply_markup=main_menu_keyboard())
             return
 
         normalized = f"{hours:02d}:{minutes:02d}"
         await settings_service.update_daily_time(user, normalized)
-
-        await message.answer(
-            f"🕒 Готово. Новое время ежедневного плана: {normalized}",
-            reply_markup=main_menu_keyboard(),
-        )
+        await message.answer(f"🕒 Готово. Новое время ежедневного плана: {normalized}", reply_markup=main_menu_keyboard())
         return
 
+    # ── Обработка «Готово» и похожих фраз ────────────────
+    if lowered in DONE_PHRASES:
+        services = build_services(session)
+        user_repo = services["user_repo"]
+        step_service = services["step_service"]
+
+        user = await user_repo.get_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer("Сначала напиши /start", reply_markup=main_menu_keyboard())
+            return
+
+        step = await step_service.ensure_current_step(user)
+        if not step:
+            await message.answer("Активный шаг не найден.", reply_markup=main_menu_keyboard())
+            return
+
+        next_step = await step_service.mark_step_done(user, step)
+        await message.answer(step_done_text(), reply_markup=main_menu_keyboard())
+
+        if next_step:
+            await message.answer(next_step_intro_text(), reply_markup=main_menu_keyboard())
+            await message.answer(
+                step_text(next_step),
+                parse_mode="HTML",
+                reply_markup=step_actions_keyboard(),
+            )
+        else:
+            await message.answer("🎉 Все шаги завершены. Ты молодец!", reply_markup=main_menu_keyboard())
+        return
+
+    # ── Проверка на слишком короткий ответ ───────────────
     if not looks_like_meaningful_step_response(message.text):
-        await message.answer(
-            weak_input_text(),
-            reply_markup=main_menu_keyboard(),
-        )
+        await message.answer(weak_input_text(), reply_markup=main_menu_keyboard())
         return
 
+    # ── Оценка ответа через AI ───────────────────────────
     services = build_services(session)
     user_repo = services["user_repo"]
     project_repo = services["project_repo"]
@@ -257,10 +262,7 @@ async def handle_text_message(message: Message, session: AsyncSession) -> None:
         user_response=message.text,
     )
 
-    await message.answer(
-        evaluation.feedback,
-        reply_markup=main_menu_keyboard(),
-    )
+    await message.answer(evaluation.feedback, reply_markup=main_menu_keyboard())
 
     if evaluation.accepted:
         next_step = await step_service.mark_step_done(
@@ -271,16 +273,11 @@ async def handle_text_message(message: Message, session: AsyncSession) -> None:
         )
 
         if next_step:
-            await message.answer(
-                next_step_intro_text(),
-                reply_markup=main_menu_keyboard(),
-            )
+            await message.answer(next_step_intro_text(), reply_markup=main_menu_keyboard())
             await message.answer(
                 step_text(next_step),
+                parse_mode="HTML",
                 reply_markup=step_actions_keyboard(),
             )
         else:
-            await message.answer(
-                "🎉 Все шаги завершены.",
-                reply_markup=main_menu_keyboard(),
-            )
+            await message.answer("🎉 Все шаги завершены.", reply_markup=main_menu_keyboard())
