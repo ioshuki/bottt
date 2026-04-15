@@ -74,3 +74,11 @@ class ProgressRepository:
         if row is None:
             return None
         return row.date() if hasattr(row, "date") else None
+    async def get_completed_steps(self, user_id: int) -> list:
+        result = await self.session.execute(
+            select(UserStepProgress).where(
+                UserStepProgress.user_id == user_id,
+                UserStepProgress.status == ProgressStatusEnum.DONE,
+            ).order_by(UserStepProgress.updated_at.asc())
+        )
+        return list(result.scalars().all())
