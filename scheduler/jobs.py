@@ -105,7 +105,7 @@ async def send_reminders(bot: Bot) -> None:
                 else:
                     days_inactive = (today - last_done).days
 
-                if days_inactive < 1:
+                if days_inactive < 2:
                     continue
 
                 phrase = get_lazy_phrase(days_inactive)

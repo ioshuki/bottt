@@ -115,6 +115,7 @@ async def _handle_step_done(
 
     await message.answer(
         step_completed_text(done, total, achievement, secret),
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
 
