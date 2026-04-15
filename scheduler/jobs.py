@@ -74,7 +74,10 @@ async def send_daily_plans(bot: Bot) -> None:
                 await session.commit()
 
             except Exception as e:
-                print(f"[scheduler] ошибка для пользователя {user.telegram_id}: {e}")
+                if "Forbidden" in str(e) or "blocked" in str(e):
+                    print(f"[scheduler] пользователь {user.telegram_id} заблокировал бота — пропускаем")
+                else:
+                    print(f"[scheduler] ошибка для пользователя {user.telegram_id}: {e}")
                 await session.rollback()
                 continue
 
@@ -117,5 +120,8 @@ async def send_reminders(bot: Bot) -> None:
                 )
 
             except Exception as e:
-                print(f"[reminder] ошибка для пользователя {user.telegram_id}: {e}")
+                if "Forbidden" in str(e) or "blocked" in str(e):
+                    print(f"[reminder] пользователь {user.telegram_id} заблокировал бота — пропускаем")
+                else:
+                    print(f"[reminder] ошибка для пользователя {user.telegram_id}: {e}")
                 continue

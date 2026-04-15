@@ -154,6 +154,7 @@ async def cmd_done(message: Message, session: AsyncSession) -> None:
     from utils.text import step_completed_text
     await message.answer(
         step_completed_text(done, total, achievement, secret),
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
 
