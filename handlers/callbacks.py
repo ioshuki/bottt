@@ -85,6 +85,7 @@ async def cb_step_done(callback: CallbackQuery, session: AsyncSession) -> None:
 
     await callback.message.answer(
         step_completed_text(done, total, achievement, secret),
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
 

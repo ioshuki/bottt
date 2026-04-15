@@ -180,7 +180,7 @@ async def menu_done(message: Message, session: AsyncSession) -> None:
         await message.answer(start_text(), reply_markup=main_menu_keyboard())
         return
 
-    step = await step_service.get_current_step(user)
+    step = await step_service.ensure_current_step(user)
     if not step:
         await message.answer("Нет активного шага.", reply_markup=main_menu_keyboard())
         return
@@ -235,3 +235,23 @@ async def menu_resume(message: Message, session: AsyncSession) -> None:
         return
 
     await settings_service.resume(user)
+
+
+@router.message(F.text == "⚙️ Настройки")
+async def menu_settings(message: Message, session: AsyncSession) -> None:
+    from utils.keyboards import settings_mode_keyboard
+    services = build_services(session)
+    user_repo = services["user_repo"]
+
+    user = await user_repo.get_by_telegram_id(message.from_user.id)
+    if not user:
+        await message.answer("Сначала напиши /start", reply_markup=main_menu_keyboard())
+        return
+
+    await message.answer(
+        f"⚙️ Настройки\n\n"
+        f"🕒 Время плана: {user.daily_time}\n"
+        f"🌍 Часовой пояс: {user.timezone}\n\n"
+        f"Выбери что изменить:",
+        reply_markup=settings_mode_keyboard(),
+    )
