@@ -22,7 +22,7 @@ from utils.text import (
 )
 
 router = Router()
-CHANNEL = "@Ai_735Agency"
+CHANNEL = settings.subscription_channel
 
 
 async def is_subscribed(bot, user_id: int, channel: str) -> bool:
@@ -107,6 +107,7 @@ async def cmd_today(message: Message, session: AsyncSession) -> None:
 
     await message.answer(
         today_card_text(step, plan.summary),
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
     await message.answer(
@@ -117,7 +118,7 @@ async def cmd_today(message: Message, session: AsyncSession) -> None:
 
     profile = await project_repo.get_by_user_id(user.id)
     help_msg = await coach_service.generate_daily_task_help(user, profile, step)
-    await message.answer(help_msg, reply_markup=main_menu_keyboard())
+    await message.answer(help_msg, parse_mode="HTML", reply_markup=main_menu_keyboard())
 
 
 @router.message(Command("done"))
@@ -140,7 +141,6 @@ async def cmd_done(message: Message, session: AsyncSession) -> None:
     next_step = await step_service.mark_step_done(user, step)
     done, total = await progress_repo.get_progress_counts(user.id)
 
-    # Достижение и секрет из payload
     achievement = None
     secret = None
     if step.payload_json:
@@ -200,7 +200,6 @@ async def cmd_achievements(message: Message, session: AsyncSession) -> None:
 
     done, total = await progress_repo.get_progress_counts(user.id)
 
-    # Собираем бейджи из выполненных шагов
     badges = []
     completed = await progress_repo.get_completed_steps(user.id)
     for progress in completed:

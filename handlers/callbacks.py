@@ -10,7 +10,8 @@ from utils.motivations import get_praise_phrase
 from utils.text import next_step_intro_text, start_text, step_text, step_completed_text
 from utils.labels import mode_label, timezone_label
 
-CHANNEL = "@Ai_735Agency"
+from config.settings import settings
+CHANNEL = settings.subscription_channel
 router = Router()
 
 

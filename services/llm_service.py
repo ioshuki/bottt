@@ -1,7 +1,12 @@
+import logging
+
 from openai import AsyncOpenAI
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 from config.settings import settings
 from schemas.llm_schema import EvaluationResult, ProjectContext
+
+logger = logging.getLogger(__name__)
 
 
 class LLMService:
@@ -38,7 +43,12 @@ class LLMService:
         return "\n".join(lines)
 
     async def _ask(self, system: str, user: str) -> str:
-        try:
+        @retry(
+            stop=stop_after_attempt(3),
+            wait=wait_exponential(multiplier=1, min=2, max=10),
+            reraise=True,
+        )
+        async def _call():
             client = self._get_client()
             response = await client.chat.completions.create(
                 model=settings.llm_model,
@@ -48,10 +58,15 @@ class LLMService:
                 ],
                 temperature=0.7,
                 max_tokens=1024,
+                timeout=30,
             )
             return response.choices[0].message.content.strip()
+
+        try:
+            return await _call()
         except Exception as e:
-            return f"Ошибка AI: {e}"
+            logger.exception(f"LLM error: {e}")
+            return "⚠️ AI временно недоступен. Попробуй ещё раз через минуту."
 
     async def generate_daily_task_help(self, context: ProjectContext) -> str:
         if not self._is_enabled():

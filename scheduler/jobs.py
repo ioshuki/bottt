@@ -49,6 +49,7 @@ async def send_daily_plans(bot: Bot) -> None:
                 await bot.send_message(
                     chat_id=user.telegram_id,
                     text=today_card_text(step, plan.summary),
+                    parse_mode="HTML",
                     reply_markup=main_menu_keyboard(),
                 )
 
@@ -67,6 +68,7 @@ async def send_daily_plans(bot: Bot) -> None:
                 await bot.send_message(
                     chat_id=user.telegram_id,
                     text=help_message,
+                    parse_mode="HTML",
                     reply_markup=main_menu_keyboard(),
                 )
 

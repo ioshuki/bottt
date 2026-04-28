@@ -1,8 +1,11 @@
+import logging
 from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
 
 from db.session import SessionLocal
+
+logger = logging.getLogger(__name__)
 
 
 class DbSessionMiddleware(BaseMiddleware):
@@ -14,6 +17,11 @@ class DbSessionMiddleware(BaseMiddleware):
     ) -> Any:
         async with SessionLocal() as session:
             data["session"] = session
-            result = await handler(event, data)
-            await session.commit()
-            return result
+            try:
+                result = await handler(event, data)
+                await session.commit()
+                return result
+            except Exception as e:
+                await session.rollback()
+                logger.exception(f"Handler error: {e}")
+                raise

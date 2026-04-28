@@ -29,7 +29,6 @@ DONE_PHRASES = {
     "поехали", "выполнено", "готово!", "сделал!", "выполнил",
 }
 
-# Маппинг выборов в шаге 3
 NATIONALITY_MAP = {
     "а": "Asian", "a": "Asian",
     "б": "Latin", "b": "Latin",
@@ -75,7 +74,6 @@ async def _handle_step_done(
     progress_repo = services["progress_repo"]
     project_repo = services["project_repo"]
 
-    # Парсим профиль на ключевых шагах
     if step.step_code == "lore_01_concept":
         parsed = _parse_step3(message.text)
         if parsed:
@@ -85,7 +83,6 @@ async def _handle_step_done(
             await project_repo.update(profile, **parsed)
 
     elif step.step_code == "lore_02_biography":
-        # Сохраняем первое слово как имя модели если профиль пустой
         words = message.text.strip().split()
         if words:
             profile = await project_repo.get_by_user_id(user.id)
@@ -156,6 +153,7 @@ async def menu_today(message: Message, session: AsyncSession) -> None:
 
     await message.answer(
         today_card_text(step, plan.summary if plan else None),
+        parse_mode="HTML",
         reply_markup=main_menu_keyboard(),
     )
     await message.answer(
@@ -166,7 +164,7 @@ async def menu_today(message: Message, session: AsyncSession) -> None:
 
     profile = await project_repo.get_by_user_id(user.id)
     help_msg = await coach_service.generate_daily_task_help(user, profile, step)
-    await message.answer(help_msg)
+    await message.answer(help_msg, parse_mode="HTML")
 
 
 @router.message(F.text == "✅ Выполнено")
@@ -235,11 +233,11 @@ async def menu_resume(message: Message, session: AsyncSession) -> None:
         return
 
     await settings_service.resume(user)
+    await message.answer("▶️ Продолжаем. Вперёд 🔥", reply_markup=main_menu_keyboard())
 
 
 @router.message(F.text == "⚙️ Настройки")
 async def menu_settings(message: Message, session: AsyncSession) -> None:
-    from utils.keyboards import settings_mode_keyboard
     services = build_services(session)
     user_repo = services["user_repo"]
 
@@ -255,3 +253,48 @@ async def menu_settings(message: Message, session: AsyncSession) -> None:
         f"Выбери что изменить:",
         reply_markup=settings_mode_keyboard(),
     )
+
+
+# ── Универсальный хендлер текстовых ответов ───────────────────────────────
+# Должен идти ПОСЛЕДНИМ — ловит всё, что не подошло к кнопкам выше.
+
+@router.message(F.text)
+async def handle_text_response(message: Message, session: AsyncSession) -> None:
+    services = build_services(session)
+    user_repo = services["user_repo"]
+    step_service = services["step_service"]
+
+    user = await user_repo.get_by_telegram_id(message.from_user.id)
+    if not user:
+        await message.answer(start_text(), reply_markup=main_menu_keyboard())
+        return
+
+    step = await step_service.ensure_current_step(user)
+    if not step:
+        await message.answer(
+            "✅ Все уровни пройдены! 🚀",
+            reply_markup=main_menu_keyboard(),
+        )
+        return
+
+    text = message.text.strip().lower()
+
+    # Если пользователь явно говорит "готово" / "сделал" — закрываем шаг
+    if text in DONE_PHRASES:
+        await _handle_step_done(message, session, services, user, step)
+        return
+
+    # Если на шаге 3 пришёл ответ типа "А, Б, А" — парсим, сохраняем, закрываем
+    if step.step_code == "lore_01_concept":
+        parsed = _parse_step3(message.text)
+        if parsed:
+            await _handle_step_done(message, session, services, user, step)
+            return
+
+    # Если ответ слишком короткий ("ок", "да") — просим написать подробнее
+    if not looks_like_meaningful_step_response(message.text):
+        await message.answer(weak_input_text(), reply_markup=main_menu_keyboard())
+        return
+
+    # Иначе считаем это содержательным ответом и завершаем шаг
+    await _handle_step_done(message, session, services, user, step)

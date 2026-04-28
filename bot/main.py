@@ -1,6 +1,9 @@
 import asyncio
+import logging
 
 from aiogram import Bot
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 
 from bot.app import create_dispatcher
 from config.settings import settings
@@ -8,26 +11,7 @@ from db.init_db import init_db
 from scheduler.jobs import send_daily_plans, send_reminders
 from utils.logger import setup_logging
 
-
-async def scheduler_loop(bot: Bot) -> None:
-    while True:
-        try:
-            await send_daily_plans(bot)
-        except Exception as e:
-            print(f"[scheduler_loop] {e}")
-        await asyncio.sleep(60)
-
-
-async def reminder_loop(bot: Bot) -> None:
-    check_count = 0
-    while True:
-        try:
-            check_count += 1
-            if check_count % 360 == 0:
-                await send_reminders(bot)
-        except Exception as e:
-            print(f"[reminder_loop] {e}")
-        await asyncio.sleep(60)
+logger = logging.getLogger(__name__)
 
 
 async def main() -> None:
@@ -37,14 +21,37 @@ async def main() -> None:
     bot = Bot(token=settings.bot_token)
     dp = create_dispatcher()
 
-    scheduler_task = asyncio.create_task(scheduler_loop(bot))
-    reminder_task = asyncio.create_task(reminder_loop(bot))
+    # Планировщик
+    scheduler = AsyncIOScheduler()
+
+    # Каждую минуту проверяем, не пора ли отправить план
+    scheduler.add_job(
+        send_daily_plans,
+        trigger=IntervalTrigger(minutes=1),
+        args=[bot],
+        id="daily_plans",
+        max_instances=1,
+        coalesce=True,
+    )
+
+    # Каждые 6 часов проверяем неактивных пользователей
+    scheduler.add_job(
+        send_reminders,
+        trigger=IntervalTrigger(hours=6),
+        args=[bot],
+        id="reminders",
+        max_instances=1,
+        coalesce=True,
+    )
+
+    scheduler.start()
+    logger.info("Scheduler started")
 
     try:
         await dp.start_polling(bot)
     finally:
-        scheduler_task.cancel()
-        reminder_task.cancel()
+        scheduler.shutdown(wait=False)
+        await bot.session.close()
 
 
 if __name__ == "__main__":
