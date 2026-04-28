@@ -7,6 +7,7 @@ from db.session import SessionLocal
 from services.factory import build_services
 from utils.keyboards import main_menu_keyboard, step_actions_keyboard
 from utils.motivations import get_lazy_phrase
+from utils.step_renderer import render_step
 from utils.text import step_text, today_card_text
 
 
@@ -46,6 +47,9 @@ async def send_daily_plans(bot: Bot) -> None:
                 await step_service.mark_step_in_progress(user, step)
                 plan = await planning_service.get_or_create_daily_plan(user, step)
 
+                profile = await project_repo.get_by_user_id(user.id)
+                step = render_step(step, profile)
+
                 await bot.send_message(
                     chat_id=user.telegram_id,
                     text=today_card_text(step, plan.summary),
@@ -60,7 +64,6 @@ async def send_daily_plans(bot: Bot) -> None:
                     reply_markup=step_actions_keyboard(),
                 )
 
-                profile = await project_repo.get_by_user_id(user.id)
                 help_message = await coach_service.generate_daily_task_help(
                     user, profile, step
                 )

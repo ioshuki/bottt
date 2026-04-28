@@ -7,11 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from services.factory import build_services
 from utils.keyboards import main_menu_keyboard, step_actions_keyboard, settings_mode_keyboard
-from utils.labels import mode_label, timezone_label
-from utils.motivations import get_praise_phrase
+from utils.step_renderer import render_step
 from utils.text import (
     help_text,
-    next_step_intro_text,
     start_text,
     status_text,
     step_text,
@@ -117,6 +115,8 @@ async def _handle_step_done(
     )
 
     if next_step:
+        profile = await project_repo.get_by_user_id(user.id)
+        next_step = render_step(next_step, profile)
         await message.answer(
             step_text(next_step),
             parse_mode="HTML",
@@ -151,6 +151,9 @@ async def menu_today(message: Message, session: AsyncSession) -> None:
     await step_service.mark_step_in_progress(user, step)
     plan = await planning_service.get_or_create_daily_plan(user, step)
 
+    profile = await project_repo.get_by_user_id(user.id)
+    step = render_step(step, profile)
+
     await message.answer(
         today_card_text(step, plan.summary if plan else None),
         parse_mode="HTML",
@@ -162,7 +165,6 @@ async def menu_today(message: Message, session: AsyncSession) -> None:
         reply_markup=step_actions_keyboard(),
     )
 
-    profile = await project_repo.get_by_user_id(user.id)
     help_msg = await coach_service.generate_daily_task_help(user, profile, step)
     await message.answer(help_msg, parse_mode="HTML")
 

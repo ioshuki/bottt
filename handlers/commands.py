@@ -12,6 +12,7 @@ from utils.keyboards import (
     step_actions_keyboard,
     subscription_keyboard,
 )
+from utils.step_renderer import render_step
 from utils.text import (
     achievements_text,
     help_text,
@@ -50,6 +51,7 @@ async def cmd_start(message: Message, session: AsyncSession) -> None:
     services = build_services(session)
     onboarding_service = services["onboarding_service"]
     step_service = services["step_service"]
+    project_repo = services["project_repo"]
 
     user, created = await onboarding_service.get_or_create_user(
         telegram_id=message.from_user.id,
@@ -71,6 +73,8 @@ async def cmd_start(message: Message, session: AsyncSession) -> None:
 
     step = await step_service.ensure_current_step(user)
     if step:
+        profile = await project_repo.get_by_user_id(user.id)
+        step = render_step(step, profile)
         await message.answer(
             step_text(step),
             parse_mode="HTML",
@@ -105,6 +109,9 @@ async def cmd_today(message: Message, session: AsyncSession) -> None:
     await step_service.mark_step_in_progress(user, step)
     plan = await planning_service.get_or_create_daily_plan(user, step)
 
+    profile = await project_repo.get_by_user_id(user.id)
+    step = render_step(step, profile)
+
     await message.answer(
         today_card_text(step, plan.summary),
         parse_mode="HTML",
@@ -116,7 +123,6 @@ async def cmd_today(message: Message, session: AsyncSession) -> None:
         reply_markup=step_actions_keyboard(),
     )
 
-    profile = await project_repo.get_by_user_id(user.id)
     help_msg = await coach_service.generate_daily_task_help(user, profile, step)
     await message.answer(help_msg, parse_mode="HTML", reply_markup=main_menu_keyboard())
 
@@ -127,6 +133,7 @@ async def cmd_done(message: Message, session: AsyncSession) -> None:
     user_repo = services["user_repo"]
     step_service = services["step_service"]
     progress_repo = services["progress_repo"]
+    project_repo = services["project_repo"]
 
     user = await user_repo.get_by_telegram_id(message.from_user.id)
     if not user:
@@ -159,6 +166,8 @@ async def cmd_done(message: Message, session: AsyncSession) -> None:
     )
 
     if next_step:
+        profile = await project_repo.get_by_user_id(user.id)
+        next_step = render_step(next_step, profile)
         await message.answer(
             step_text(next_step),
             parse_mode="HTML",
