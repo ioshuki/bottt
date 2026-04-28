@@ -1,9 +1,40 @@
+# Environment
 .env
-bot.db
+.env.local
+*.env
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
 __pycache__/
 **/__pycache__/
 *.pyc
 *.pyo
-.DS_Store
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual env
 .venv/
 venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Backups
+*.bak
+*.backup
